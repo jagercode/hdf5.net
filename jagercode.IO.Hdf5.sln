@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5", "jagercode.IO.Hdf5\jagercode.IO.Hdf5.csproj", "{8624C1A5-B999-4D24-B309-12C32EC014C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5.utest", "jagercode.IO.Hdf5.utest\jagercode.IO.Hdf5.utest.csproj", "{429C5A2C-628E-43BD-B31D-26A99D364779}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8624C1A5-B999-4D24-B309-12C32EC014C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8624C1A5-B999-4D24-B309-12C32EC014C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8624C1A5-B999-4D24-B309-12C32EC014C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429C5A2C-628E-43BD-B31D-26A99D364779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429C5A2C-628E-43BD-B31D-26A99D364779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429C5A2C-628E-43BD-B31D-26A99D364779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429C5A2C-628E-43BD-B31D-26A99D364779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
