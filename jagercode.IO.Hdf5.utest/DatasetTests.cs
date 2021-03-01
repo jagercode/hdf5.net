@@ -40,5 +40,17 @@ namespace jagercode.IO.Hdf5.utest
 
 			f.Dispose();
 		}
+
+		[TestMethod]
+		public void Read_double_using_AsDictionary()
+		{
+			var f = new File("");
+			var dict = f.DataSets.AsDictionary();
+			double d = (double)dict["double"];
+			
+			// missing the attributes here. 
+
+		}
+
 	}
 }

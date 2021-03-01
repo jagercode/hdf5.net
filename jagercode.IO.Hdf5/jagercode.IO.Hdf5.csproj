@@ -46,10 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="Easy\DataSetObjectCollection.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="INode.cs" />
     <Compile Include="Internal\Id.cs" />
+    <Compile Include="NdArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

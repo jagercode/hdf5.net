@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace jagercode.IO.Hdf5
 {
-	public class DataSet
+	public class DataSet : INode
 	{
 		public string Name { get; set;  }
 		public ulong[] Shape { get; }
@@ -15,6 +15,8 @@ namespace jagercode.IO.Hdf5
 		public void Get<T>(out T value){ throw new NotImplementedException(); }
 		public void Set<T>(T value) { }
 		public object ValueAsObject { get; set; }
+
+		public INdArray Value { get; set; }
 	}
 
 	//public class DataSet<TValue> : DataSet
@@ -36,6 +38,15 @@ namespace jagercode.IO.Hdf5
 			get { return default(DataSet); }
 			set { }
 		}
+
+		public IDictionary<string, object> AsDictionary() { return new Easy.DataSetDictionary(this); }
+
+
+		public void Add<T>(string name, T value)
+		{ }
+
+		public void Add(DataSet dataSet)
+		{ }
 
 		public IEnumerator<DataSet> GetEnumerator()
 		{
