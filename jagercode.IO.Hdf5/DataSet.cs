@@ -10,12 +10,15 @@ namespace jagercode.IO.Hdf5
 	public class DataSet : INode
 	{
 		public string Name { get; set;  }
+
+		// approach 1: DataSet IS a INdArray
 		public ulong[] Shape { get; }
 		public Type Type { get; }
 		public void Get<T>(out T value){ throw new NotImplementedException(); }
 		public void Set<T>(T value) { }
 		public object ValueAsObject { get; set; }
 
+		// approach 2: DataSet HAS a INdArray
 		public INdArray Value { get; set; }
 	}
 

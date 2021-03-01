@@ -10,5 +10,6 @@ namespace jagercode.IO.Hdf5
 	{
 		public string Name { get; set; }
 
+		public INdArray Value { get; set; }
 	}
 }

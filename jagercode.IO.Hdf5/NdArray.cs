@@ -2,8 +2,11 @@
 
 namespace jagercode.IO.Hdf5
 {
-	// TODO: determine whether this is the way or that the INdValue is to be implemented by DataSet and Attribute directly. 
+	// TODO: determine whether this is the way (#2) or that the INdValue is to be implemented by DataSet and Attribute directly (#1). 
 	// I think the latter but let's decide by comparing example scripts of the same scenario.
+	// You have to remind that approach below requires in memory loading of the data for introspection whilst
+	// #1 is more logical for an in memory versus memory mapped or on disk approach for hdf5 objects.
+	// #2 can be made independent of the storage. 
 
 	public interface INdArray
 	{
