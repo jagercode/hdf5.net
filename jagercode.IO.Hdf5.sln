@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5", "jagerc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5.utest", "jagercode.IO.Hdf5.utest\jagercode.IO.Hdf5.utest.csproj", "{429C5A2C-628E-43BD-B31D-26A99D364779}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Testing", "jagercode.Testing\jagercode.Testing.csproj", "{0154C653-7BAD-4842-9327-336BC6068ACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{429C5A2C-628E-43BD-B31D-26A99D364779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{429C5A2C-628E-43BD-B31D-26A99D364779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{429C5A2C-628E-43BD-B31D-26A99D364779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0154C653-7BAD-4842-9327-336BC6068ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0154C653-7BAD-4842-9327-336BC6068ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0154C653-7BAD-4842-9327-336BC6068ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0154C653-7BAD-4842-9327-336BC6068ACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

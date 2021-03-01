@@ -16,6 +16,9 @@ namespace jagercode.IO.Hdf5
 		{
 		}
 
+		public DataSetCollection DataSets { get; }
+
+
 		#region IDisposable Support
 
 		// TODO: fields managed by Dispose

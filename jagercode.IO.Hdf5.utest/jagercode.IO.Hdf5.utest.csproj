@@ -49,11 +49,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="FileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DatasetTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="notes.md" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\jagercode.IO.Hdf5\jagercode.IO.Hdf5.csproj">
+      <Project>{8624c1a5-b999-4d24-b309-12c32ec014c0}</Project>
+      <Name>jagercode.IO.Hdf5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\jagercode.Testing\jagercode.Testing.csproj">
+      <Project>{0154c653-7bad-4842-9327-336bc6068acd}</Project>
+      <Name>jagercode.Testing</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
