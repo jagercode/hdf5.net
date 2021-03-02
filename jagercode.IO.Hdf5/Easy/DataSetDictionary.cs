@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace jagercode.IO.Hdf5.Easy
 {
+
+	// needed? syntactic sugar? how to use generic method from object? 
 	public class DataSetDictionary : IDictionary<string, object>
 	{
 		private DataSetCollection _collection;

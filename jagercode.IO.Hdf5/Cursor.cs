@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace jagercode.IO.Hdf5
 {
-    public class Class1
-    {
-    }
+
+	public class Cursor
+	{
+		// 
+
+
+	}
 }

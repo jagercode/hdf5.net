@@ -6,20 +6,26 @@ namespace jagercode.IO.Hdf5
 	// I think the latter but let's decide by comparing example scripts of the same scenario.
 	// You have to remind that approach below requires in memory loading of the data for introspection whilst
 	// #1 is more logical for an in memory versus memory mapped or on disk approach for hdf5 objects.
-	// #2 can be made independent of the storage. 
+	// #2 can be made independent of the storage. Or serve as frontend to hide the implementation details. 
+	//
+	// If it is an array, it should have all the array operators. This is not the case. 
+	// Array access via Value property. So this is more like a carrier or entry.
+	// For this reason it is for now not added to the object model and instead
+	// this approach is taken to the Attributes and DataSet individual.
 
 	public interface INdArray
 	{
 		bool IsScalar { get; }
 		ulong[] Shape { get; }
 		Type Type { get; }
-		object ValueAsObject { get; }
+		object ValueAsObject { get; set; }
 	}
 
 	public interface INdArray<T> : INdArray
 	{
 		T Value { get; set; }
 	}
+
 
 	public class NdArray<T> : INdArray<T>
 	{
@@ -45,15 +51,19 @@ namespace jagercode.IO.Hdf5
 
 		public Type Type => _ndArray.Type;
 
-		public object ValueAsObject => _ndArray.ValueAsObject;
+		public object ValueAsObject { get => _ndArray.ValueAsObject; set => _ndArray.ValueAsObject = value; }
 	}
 
-	class Scalar<T> : INdArray<T>
+	internal class Scalar<T> : INdArray<T>
 	{
 		internal Scalar(T scalarValue)
 		{
-			var a = scalarValue as Array;
-			if (a != null) throw new ArgumentException($"{nameof(scalarValue)}: expected scalar value");
+			Array a = scalarValue as Array;
+			if (a != null)
+			{
+				throw new ArgumentException($"{nameof(scalarValue)}: expected scalar value");
+			}
+
 			Value = scalarValue;
 		}
 
@@ -65,21 +75,27 @@ namespace jagercode.IO.Hdf5
 
 		public Type Type => Value.GetType();
 
-		public object ValueAsObject => Value;
+		public object ValueAsObject { get => Value; set => Value = (T)value; }
 	}
 
-
-	 class Array<T> : INdArray<T>
+	internal class Array<T> : INdArray<T>
 	{
 
 		internal Array(T arrayValue)
 		{
-			var array = arrayValue as Array;
-			if (null == array) throw new ArgumentException($"{nameof(arrayValue)}: expected array type");
+			Array array = arrayValue as Array;
+			if (null == array)
+			{
+				throw new ArgumentException($"{nameof(arrayValue)}: expected array type");
+			}
+
 			Value = arrayValue;
-			var shape = new ulong[array.Rank];
-			for (var u = 0; u < array.Rank; u++)
-				shape[u] = (ulong) array.GetLength(u);
+			ulong[] shape = new ulong[array.Rank];
+			for (int u = 0; u < array.Rank; u++)
+			{
+				shape[u] = (ulong)array.GetLength(u);
+			}
+
 			Shape = shape;
 			Type = array.GetType().GetElementType();
 		}
@@ -92,7 +108,7 @@ namespace jagercode.IO.Hdf5
 
 		public Type Type { get; }
 
-		public object ValueAsObject => Value;
+		public object ValueAsObject { get => Value; set => Value = (T)value; }
 	}
 
 }

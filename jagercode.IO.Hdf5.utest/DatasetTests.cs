@@ -21,10 +21,19 @@ namespace jagercode.IO.Hdf5.utest
 		}
 
 		[TestMethod]
+		public void Add_double_succeeds_using_AsDictionary()
+		{
+			var f = new File("");
+			var dict = f.DataSets.AsDictionary();
+			dict["double"] = 2.33d;
+			f.Dispose();
+		}
+
+		[TestMethod]
 		public void Read_double_succeeds()
 		{
 			var f = new File("");
-			f.DataSets["double"].Get(out double d);
+			double d = f.DataSets["double"].Get<double>();
 			f.Dispose();
 		}
 
@@ -33,7 +42,7 @@ namespace jagercode.IO.Hdf5.utest
 		{
 			var f = new File("");
 			//
-			f.DataSets.Where(ds => ds.Name == "double").First().Get(out double d);
+			double d = f.DataSets.Where(ds => ds.Name == "double").First().Get<double>();
 
 			// move to Node tests:
 			// d = f.Select(n => n.Name == "double").First();

@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Cursor.cs" />
     <Compile Include="DataSet.cs" />
-    <Compile Include="Easy\DataSetObjectCollection.cs" />
+    <Compile Include="Easy\DataSetDictionary.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="Internal\Id.cs" />
     <Compile Include="NdArray.cs" />

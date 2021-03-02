@@ -8,6 +8,7 @@ namespace jagercode.IO.Hdf5
 {
 	interface INode
 	{
-
+		string Name { get; set; }
+		// AttributeCollection Attibutes { get; set; }
 	}
 }

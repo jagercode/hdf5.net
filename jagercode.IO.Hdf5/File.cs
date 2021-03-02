@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace jagercode.IO.Hdf5
 {
-	public class File : IDisposable
+	public class File : Group, IDisposable
 	{
 		/// <summary>
 		/// Opens if exists; Creates otherwise
@@ -14,9 +14,10 @@ namespace jagercode.IO.Hdf5
 		/// <param name="path"></param>
 		public File(string path)
 		{
+			// how to set always existing rootgroup here.
 		}
 
-		public DataSetCollection DataSets { get; }
+		// inherited: public DataSetCollection DataSets { get; }
 
 
 		#region IDisposable Support
