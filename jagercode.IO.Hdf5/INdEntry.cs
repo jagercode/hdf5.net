@@ -10,7 +10,7 @@ namespace jagercode.IO.Hdf5
 		object ValueAsObject { get; set; }
 	}
 
-	public interface INdEntry<T>
+	public interface INdEntry<T> : INdEntry
 	{
 		T Value { get; set; }
 	}
