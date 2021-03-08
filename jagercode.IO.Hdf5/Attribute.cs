@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,22 @@ namespace jagercode.IO.Hdf5
 	public sealed class Attribute<T> : Attribute, INdEntry<T>
 	{
 		public T Value { get; set; }
+	}
+
+	public sealed class AttributeCollection : IEnumerable<Attribute>
+	{
+		public Attribute this[string name] { get=>throw new NotImplementedException();set => throw new NotImplementedException(); }
+		public void Add<T>(string name, T value) { }
+		public Attribute Create<T>(string name, T value) { throw new NotImplementedException(); }
+
+		public IEnumerator<Attribute> GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

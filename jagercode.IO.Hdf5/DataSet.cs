@@ -10,7 +10,7 @@ namespace jagercode.IO.Hdf5
 	public class DataSet : INode
 	{
 		public string Name { get; set; }
-		// public AttributeCollection Attributes {get;set;}
+		public AttributeCollection Attributes {get;}
 
 		// approach 1: DataSet IS an INdArray with attributes and a name
 		public ulong[] Shape { get; }

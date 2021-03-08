@@ -10,6 +10,8 @@ namespace jagercode.IO.Hdf5
 	{
 		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+		public AttributeCollection Attributes { get; }
+
 		public DataSetCollection DataSets { get; }
 
 		public GroupCollection Groups { get; }
