@@ -9,6 +9,9 @@ namespace jagercode.IO.Hdf5
 	public class Group : INode
 	{
 		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string Location { get; set; }
+
+		// Q: add sugar by repeating the add-methods of groups and datasets.
 
 		public AttributeCollection Attributes { get; }
 
@@ -29,5 +32,7 @@ namespace jagercode.IO.Hdf5
 		public void Add(Group group) { }
 
 		public void Add(string name) { }
+
+		public Group Create(string name) { throw new NotImplementedException(); }
 	}
 }

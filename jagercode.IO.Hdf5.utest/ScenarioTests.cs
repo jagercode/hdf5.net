@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace jagercode.IO.Hdf5.utest
 {
@@ -15,19 +14,31 @@ namespace jagercode.IO.Hdf5.utest
 		[TestMethod]
 		public void Add_structure_to_file_directly()
 		{
-			
+
 		}
 
 		[TestMethod]
 		public void Add_structure_provided_by_factory_method()
 		{
-			Group createGroup ()
-				{
+			Group createGroup()
+			{
 				return new Group
 				{
 					Name = "Factory Group",
-					//{ "Data set", 12d },
-					//{ new DataSet("aap", 13d) },
+					DataSets =
+					{
+						{ "Data set", 12d },
+						{ new DataSet<double>("aap", 13d)
+						{
+							Attributes =
+							{
+								{ "aap double", 2d },
+								{"aap string", "aap string" },
+							}
+
+						}
+						},
+					},
 					Attributes =
 					{
 						{"double", 1d },
@@ -37,7 +48,11 @@ namespace jagercode.IO.Hdf5.utest
 					},
 				};
 			};
-			
+
+			var g = createGroup();
+			var f = new File("testpath");
+			f.Groups.Add(g);
+
 		}
 
 		[TestMethod]

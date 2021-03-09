@@ -55,6 +55,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="Internal\Error.cs" />
     <Compile Include="Internal\Id.cs" />
     <Compile Include="NdArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
