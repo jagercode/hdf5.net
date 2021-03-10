@@ -7,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace jagercode.IO.Hdf5
 {
-	public abstract class Attribute : INdArray
+	public abstract class Attribute : INdEntry
 	{
 		public string Name { get; set; }
+
+		public Type ElementType { get; }
+
+		public T Get<T>() => throw new NotImplementedException();
+
+		public void Set<T>(T value)
+		{
+			throw new NotImplementedException();
+		}
 
 		// public INdArray Value { get; set; }
 
