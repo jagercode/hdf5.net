@@ -1,4 +1,14 @@
-﻿# Inspiratie
+﻿# Roadmap
+
+Fasering: 
+
+  1. Direct in de file: Object initializers for C# types only
+  2. In memory: Object initializers ook voor offline hdf5 objecten zodat factory methods mogelijk zijn
+  3. Chunked dataset
+  4. Slices / partial read
+
+
+# Inspiratie
 
 
 ## sharpHDF

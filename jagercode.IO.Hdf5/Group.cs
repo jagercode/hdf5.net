@@ -11,7 +11,7 @@ namespace jagercode.IO.Hdf5
 		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string Location { get; set; }
 
-		// Q: add sugar by repeating the add-methods of groups and datasets.
+		// Q: add extra sugar by repeating the collection add-methods of groups and datasets and making the interface less clean?
 
 		public AttributeCollection Attributes { get; }
 
