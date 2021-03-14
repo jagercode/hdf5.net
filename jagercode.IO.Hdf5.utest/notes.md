@@ -1,10 +1,19 @@
-﻿# Roadmap
+﻿# Next actions
+
+  * set-up test structure 
+  * decide whether to use generic or object type read / write hdf calls.
+  * DRY-design for read / write
+  * ...
+  \u/ reached milestone 
+
+
+# Roadmap
 
 Milestones : 
 
   1. Directly storing in the file and Object Initializers for C# types only [M]
-  2. In memory: Object initializers also for hdf5 objects to support factory methods for parts of file content. [M]
-  3. Thread safety [M]
+  2. Thread safety [M]
+  3. In memory: Object initializers also for hdf5 objects to support factory methods for parts of file content. [M]
 
 Maybe:
   4. Slices / partial reads [S]
@@ -27,7 +36,14 @@ Not planned:
 Dispose / close should repack if there is at least one deletion in the file. 
 This requires that the repack and maybe other hdf5 libs are part of the distribution.
 
+
 # Design
+
+## Datasets
+Datasets are intended to be large, so their data remains on disk until it's needed ()
+
+## Attributes
+Attribtues are intended to be relatively small, so the whole collection can be loaded from disk upon first access (lazy loading)
 
 ## Errors
 
