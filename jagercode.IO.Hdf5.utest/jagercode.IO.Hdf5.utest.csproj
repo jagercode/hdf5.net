@@ -8,8 +8,8 @@
     <ProjectGuid>{429C5A2C-628E-43BD-B31D-26A99D364779}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>jagercode.IO.Hdf5.utest</RootNamespace>
-    <AssemblyName>jagercode.IO.Hdf5.utest</AssemblyName>
+    <RootNamespace>jagercode.Hdf5.utest</RootNamespace>
+    <AssemblyName>jagercode.Hdf5.utest</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

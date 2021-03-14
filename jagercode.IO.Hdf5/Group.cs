@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.IO.Hdf5
+
+namespace jagercode.Hdf5
 {
 	public class Group : INode
 	{
+
 		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string Location { get; set; }
 

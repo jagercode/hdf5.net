@@ -7,8 +7,8 @@
     <ProjectGuid>{8624C1A5-B999-4D24-B309-12C32EC014C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>jagercode.IO.Hdf5</RootNamespace>
-    <AssemblyName>jagercode.IO.Hdf5</AssemblyName>
+    <RootNamespace>jagercode.Hdf5</RootNamespace>
+    <AssemblyName>jagercode.Hdf5</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -55,8 +55,14 @@
     <Compile Include="Group.cs" />
     <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="Internal\DataSet.cs" />
     <Compile Include="Internal\Error.cs" />
     <Compile Include="Internal\Id.cs" />
+    <Compile Include="Internal\Path.cs" />
+    <Compile Include="Internal\SafeIdHandle.cs" />
+    <Compile Include="Internal\SafePinnedGCHandle.cs" />
+    <Compile Include="Internal\Strings.cs" />
+    <Compile Include="Internal\TypeMappings.cs" />
     <Compile Include="NdArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

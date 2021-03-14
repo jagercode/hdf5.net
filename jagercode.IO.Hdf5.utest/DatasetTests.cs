@@ -2,9 +2,9 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace jagercode.IO.Hdf5.utest
+namespace jagercode.Hdf5.utest
 {
-	using jagercode.IO.Hdf5;
+	using jagercode.Hdf5;
 	using jagercode.Testing.IO;
 
 	[TestClass]

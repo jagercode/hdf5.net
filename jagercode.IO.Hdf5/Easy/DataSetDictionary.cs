@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.IO.Hdf5.Easy
+namespace jagercode.Hdf5.Easy
 {
 
 	// needed? syntactic sugar? how to use generic method from object? 

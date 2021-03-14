@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jagercode.IO.Hdf5
+namespace jagercode.Hdf5
 {
 	/// <summary>
 	/// Interface for entries containing zero to n dimensional data of a single element type. 

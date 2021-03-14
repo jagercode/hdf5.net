@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace jagercode.IO.Hdf5.utest
+namespace jagercode.Hdf5.utest
 {
 	[TestClass]
 	public class FileTests

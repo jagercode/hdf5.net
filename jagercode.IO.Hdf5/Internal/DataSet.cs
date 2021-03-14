@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.Hdf5
+namespace jagercode.Hdf5.Internal
 {
-
-	public class Cursor
+	internal static class DataSet
 	{
-		// 
-
 
 	}
 }
