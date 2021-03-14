@@ -53,7 +53,7 @@ namespace jagercode.Hdf5.Internal
 				{
 					// thou shalt never cause exceptions on disposal of resources (but log them)
 #if DEBUG
-					throw;
+					throw new NotImplementedException("log failing call. ");
 #endif
 				}
 			}

@@ -1,11 +1,8 @@
-﻿using System;
+﻿using HDF.PInvoke;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using HDF.PInvoke;
 
 namespace jagercode.Hdf5
 {
@@ -17,7 +14,10 @@ namespace jagercode.Hdf5
 
 		public Type ElementType { get; }
 
-		public T Get<T>() => throw new NotImplementedException();
+		public T Get<T>()
+		{
+			throw new NotImplementedException();
+		}
 
 		public void Set<T>(T value)
 		{
@@ -34,8 +34,21 @@ namespace jagercode.Hdf5
 
 		public object ValueAsObject { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		internal static class HDF 
+		internal static class HDF
+		{
+
+			/// <summary>
+			/// Expects an already OPEN hdf5 node object. Returns the requested value.  
+			/// </summary>
+			/// <typeparam name="T"></typeparam>
+			/// <param name="nodeId"></param>
+			/// <param name="attrName"></param>
+			/// <returns></returns>
+			internal static T Read<T>(Id nodeId, string attrName)
 			{
+				throw new NotImplementedException();
+			}
+
 			/// <summary>
 			/// Gets the specified data from the attribute at the specified location.
 			/// </summary>
@@ -45,7 +58,7 @@ namespace jagercode.Hdf5
 			/// <param name="attrName">Name of the attribute.</param>
 			/// <returns></returns>
 			/// <exception cref="System.NotImplementedException"></exception>
-			internal static T Get<T>(Id fileId, string h5Path, string attrName)
+			internal static T Read<T>(Id fileId, string h5Path, string attrName)
 			{
 				if (!fileId.IsValid)
 				{
@@ -59,7 +72,7 @@ namespace jagercode.Hdf5
 				}
 
 				// Indirectly tested via Hdf5Editor and public read(..., out[] double) and read(..., out float[])
-				using (var nodeHnd = new SafeIdHandle(id, H5O.close)) // can be dataset or group; irrelevant for attributes.
+				using (SafeIdHandle nodeHnd = new SafeIdHandle(id, H5O.close)) // can be dataset or group; irrelevant for attributes.
 				{
 					id = H5A.open(nodeHnd.Id, attrName);
 					if (!id.IsValid)
@@ -67,14 +80,14 @@ namespace jagercode.Hdf5
 						throw new ArgumentException($"Failed to open attribute '{attrName}' at '{h5Path}'", nameof(attrName));
 					}
 
-					using (var attrHnd = new SafeIdHandle(id, H5A.close))
+					using (SafeIdHandle attrHnd = new SafeIdHandle(id, H5A.close))
 					{
 						Type returnType = typeof(T);
 						Type returnElementType = returnType.IsArray ? returnType.GetElementType() : returnType;
-						var returnRank = returnType.IsArray ? returnType.GetArrayRank() : 0;
+						int returnRank = returnType.IsArray ? returnType.GetArrayRank() : 0;
 
 						// verify data types and size.
-						var storageTypeId = H5A.get_type(attrHnd.Id);
+						long storageTypeId = H5A.get_type(attrHnd.Id);
 
 						// todo: get it workses for ascii and utf8 strings.
 						// See: https://stackoverflow.com/questions/51978853/how-to-read-hdf5-variable-length-string-attributes-in-c-sharp-net
@@ -105,7 +118,9 @@ namespace jagercode.Hdf5
 								$"Failed to open data space of attribute '{attrName}' at '{h5Path}'");
 						}
 
-						using (var spaceHnd = new SafeIdHandle(id, H5S.close))
+						// <extract method> space.read<T>()?
+
+						using (SafeIdHandle spaceHnd = new SafeIdHandle(id, H5S.close))
 						{
 
 							int storedRank = H5S.get_simple_extent_ndims(spaceHnd.Id); // H5T.get_array_ndims(attrHnd.Id);
@@ -133,7 +148,7 @@ namespace jagercode.Hdf5
 						{
 							// such large arrays aren't expected on attributes anyway... 
 							throw new NotSupportedException(
-								$"One or more dimensions of the data exceeds Int64.MaxValue and cannot be used for dynamic array creation. Shape: [{string.Join(",", h5Dims.Select(ul => ul.ToString()))}]");
+								$"One or more dimensions of the data exceeds Int64.MaxValue and cannot be used for dynamic array creation. Shape: {Internal.Shape.ToString(h5Dims)}");
 						}
 
 						object toPin = returnRank == 0
@@ -141,12 +156,13 @@ namespace jagercode.Hdf5
 							: Array.CreateInstance(returnElementType, arrayDims);
 
 						// read scalar or array (shape may be inferred w/ H5S.get_simple_extent_ndims)
-						using (var gch = new PinnedGCHandle(toPin))
+						using (PinnedGCHandle gch = new PinnedGCHandle(toPin))
 						{
 							H5A.read(attrHnd.Id, memType, gch.AddressPtr);
 						}
 
 						return (T)toPin;
+						// </extract method> 
 					}
 				}
 			}
@@ -161,7 +177,7 @@ namespace jagercode.Hdf5
 
 	public sealed class AttributeCollection : IEnumerable<Attribute>
 	{
-		public Attribute this[string name] { get=>throw new NotImplementedException();set => throw new NotImplementedException(); }
+		public Attribute this[string name] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public void Add<T>(string name, T value) { }
 		public Attribute Create<T>(string name, T value) { throw new NotImplementedException(); }
 

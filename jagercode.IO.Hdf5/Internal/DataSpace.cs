@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace jagercode.Hdf5.Internal
 {
-	internal static class DataSet
+	internal static class DataSpace
 	{
 
 	}

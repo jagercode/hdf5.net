@@ -55,12 +55,13 @@
     <Compile Include="Group.cs" />
     <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
-    <Compile Include="Internal\DataSet.cs" />
-    <Compile Include="Internal\Error.cs" />
+    <Compile Include="Internal\DataSpace.cs" />
+    <Compile Include="Internal\Result.cs" />
     <Compile Include="Internal\Id.cs" />
     <Compile Include="Internal\Path.cs" />
     <Compile Include="Internal\SafeIdHandle.cs" />
     <Compile Include="Internal\SafePinnedGCHandle.cs" />
+    <Compile Include="Internal\Shape.cs" />
     <Compile Include="Internal\Strings.cs" />
     <Compile Include="Internal\TypeMappings.cs" />
     <Compile Include="NdArray.cs" />
