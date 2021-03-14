@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5", "jagercode.IO.Hdf5\jagercode.IO.Hdf5.csproj", "{8624C1A5-B999-4D24-B309-12C32EC014C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Hdf5", "jagercode.IO.Hdf5\jagercode.Hdf5.csproj", "{8624C1A5-B999-4D24-B309-12C32EC014C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.IO.Hdf5.utest", "jagercode.IO.Hdf5.utest\jagercode.IO.Hdf5.utest.csproj", "{429C5A2C-628E-43BD-B31D-26A99D364779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Hdf5.utest", "jagercode.IO.Hdf5.utest\jagercode.Hdf5.utest.csproj", "{429C5A2C-628E-43BD-B31D-26A99D364779}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Testing", "jagercode.Testing\jagercode.Testing.csproj", "{0154C653-7BAD-4842-9327-336BC6068ACD}"
 EndProject
