@@ -15,7 +15,7 @@ namespace jagercode.Hdf5.utest
 		[Test]
 		public void Add_structure_to_file_directly()
 		{
-
+			Assert.Inconclusive();
 		}
 
 		[Test]
