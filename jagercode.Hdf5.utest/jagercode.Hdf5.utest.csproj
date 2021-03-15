@@ -60,7 +60,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\jagercode.IO.Hdf5\jagercode.Hdf5.csproj">
+    <ProjectReference Include="..\jagercode.Hdf5\jagercode.Hdf5.csproj">
       <Project>{8624c1a5-b999-4d24-b309-12c32ec014c0}</Project>
       <Name>jagercode.Hdf5</Name>
     </ProjectReference>
