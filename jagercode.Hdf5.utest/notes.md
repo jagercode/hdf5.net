@@ -57,6 +57,11 @@ Dispose / close should repack if there is at least one deletion in the file.
 This requires that the repack and maybe other hdf5 libs are part of the distribution.
 
 
+# Analysis / Decide / Evaluate
+
+  1. Datasets & Attributes: abstract + generic subclass <-> concrete generic <-> object return types
+
+
 # Design
 
 ## Datasets
