@@ -1,18 +1,22 @@
-﻿using System;
+﻿// native usings
+using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+// third party usings
+using NUnit.Framework;
+// solution usings
+
 
 namespace jagercode.Hdf5.utest
 {
 	using jagercode.Hdf5;
-	using jagercode.Testing.IO;
+	using jagercode.Testing;
 
-	[TestClass]
+	[TestFixture]
 	public class DatasetTests
 	{
 		private Site _site = Site.AtTypeAssemblyPath(typeof(DatasetTests));
 
-		[TestMethod]
+		[Test]
 		public void Add_double_succeeds()
 		{
 			var f = new File("");
@@ -20,7 +24,7 @@ namespace jagercode.Hdf5.utest
 			f.Dispose();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Add_double_succeeds_using_AsDictionary()
 		{
 			var f = new File("");
@@ -29,7 +33,7 @@ namespace jagercode.Hdf5.utest
 			f.Dispose();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Read_double_succeeds()
 		{
 			var f = new File("");
@@ -37,7 +41,7 @@ namespace jagercode.Hdf5.utest
 			f.Dispose();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Read_double_using_linq()
 		{
 			var f = new File("");
@@ -50,7 +54,7 @@ namespace jagercode.Hdf5.utest
 			f.Dispose();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Read_double_using_AsDictionary()
 		{
 			var f = new File("");

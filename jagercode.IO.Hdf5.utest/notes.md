@@ -1,9 +1,29 @@
 ﻿# Next actions
 
   * set-up test structure 
+  * write many unit tests:
+    * dataset add supported datatypes in different shapes.
+	* dataset inspection: shape and element type
+	* dataset get value
+	* dataset set value
+	* dataset add invalid name
+	* dataset add name exists
+	* dataset rename
+	* attribute add all supported datatypes in differen shapes
+	* attribute add to dataset
+	* group add (valid name, invalid name, name exists)
+	* group rename (valid name, invalid name, name exists)
+	* attribute add to group
+	* attribute inspection: shape and element type
+	* attribute get value
+	* attribute set value
+	* attribute add invalid name
+	* attribute add name exists
+	* attribute rename
+	* ... (and more)
   * decide whether to use generic or object type read / write hdf calls.
   * DRY-design for read / write
-  * ...
+  * ... (and more)
   \u/ reached milestone 
 
 
@@ -56,6 +76,9 @@ Path already taken --> Invalid Operation
 *) ResourceNotFound (Azure) is also appropriate as every entry in the file is a resource identified at one or more unique paths. 
 But I prefer using Exceptions from the default system libraries or define my own.
 NotFoundException : InvalidOperation
+
+## Unit tests
+Using NUnit and not MSTest to be independent of Visual Studio installed. 
 
 # Reference
 

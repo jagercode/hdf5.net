@@ -1,23 +1,24 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+
 
 namespace jagercode.Hdf5.utest
 {
-	[TestClass]
+	[TestFixture]
 	public class ScenarioTests
 	{
-		[TestMethod]
+		[Test]
 		public void Add_structure_using_object_initializer()
 		{
 			Assert.Inconclusive();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Add_structure_to_file_directly()
 		{
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void Add_structure_provided_by_factory_method()
 		{
 			Group createGroup()
@@ -55,17 +56,17 @@ namespace jagercode.Hdf5.utest
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void Find_all_datasets_with_certain_name()
 		{
 		}
 
-		[TestMethod]
+		[Test]
 		public void Find_all_groups_with_certain_name()
 		{
 		}
 
-		[TestMethod]
+		[Test]
 		public void Find_all_datasets_with_certain_attribute_names()
 		{
 		}

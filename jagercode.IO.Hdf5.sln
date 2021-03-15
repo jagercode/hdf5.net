@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Hdf5.utest", "jag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.Testing", "jagercode.Testing\jagercode.Testing.csproj", "{0154C653-7BAD-4842-9327-336BC6068ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jagercode.meuk", "jagercode.meuk\jagercode.meuk.csproj", "{0F9911CB-72E1-40C0-8193-3790D9CDD2F5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{0154C653-7BAD-4842-9327-336BC6068ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0154C653-7BAD-4842-9327-336BC6068ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0154C653-7BAD-4842-9327-336BC6068ACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F9911CB-72E1-40C0-8193-3790D9CDD2F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F9911CB-72E1-40C0-8193-3790D9CDD2F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F9911CB-72E1-40C0-8193-3790D9CDD2F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F9911CB-72E1-40C0-8193-3790D9CDD2F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

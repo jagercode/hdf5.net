@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace jagercode.Hdf5.utest
 {
-	[TestClass]
+	[TestFixture]
 	public class FileTests
 	{
-		[TestMethod]
+		[Test]
 		public void Open_file_succeeds_if_file_exists()
 		{
 			throw new NotImplementedException();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Open_file_succeeds_if_file_does_not_exist()
 		{
 			throw new NotImplementedException();
 		}
 
-		[TestMethod]
+		[Test]
 		public void Open_file_throws_if_file_already_open()
 		{
 			throw new NotImplementedException();
