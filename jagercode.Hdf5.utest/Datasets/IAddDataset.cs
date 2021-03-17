@@ -1,11 +1,11 @@
 ﻿namespace jagercode.Hdf5.utest.Datasets
 {
-	internal interface IAddShapesDataset<T>
+	internal interface ITestShapesOf<T>
 	{
-		void Add_scalar();
-		void Add_1d();
-		void Add_2d();
-		void Add_3d();
-		void Add_8d();
+		void Test_scalar_value();
+		void Test_1d_value();
+		void Test_2d_value();
+		void Test_3d_value();
+		void Test_8d_value();
 	}
 }

@@ -17,6 +17,11 @@ namespace jagercode.Hdf5
 			// how to set always existing rootgroup here.
 		}
 
+		public void Close()
+		{
+			throw new NotImplementedException();
+		}
+
 		// inherited: public DataSetCollection DataSets { get; }
 
 

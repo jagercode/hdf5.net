@@ -13,13 +13,13 @@ namespace jagercode.Testing
 		{
 			public const string OutFolder = "out";
 
-			public const string CasesFolder = "test files";
+			public const string CasesFolder = "resources";
 		}
 
 		private Site(string root)
 		{
 			Out = new DirectoryInfo(Path.Combine(root, Default.OutFolder));
-
+			Resources = new DirectoryInfo(Path.Combine(root, Default.CasesFolder));
 		}
 
 		public static Site AtTypeAssemblyPath(Type type)
@@ -30,6 +30,17 @@ namespace jagercode.Testing
 
 		}
 
+		public string ReserveOutForResource(string pattern)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string CopyResourceToOut(string pattern)
+		{
+			throw new NotImplementedException();
+		}
+
+		public DirectoryInfo Resources { get; private set; }
 		public DirectoryInfo Out { get; private set; }
 
 		public string ReserveOut(string fileName)

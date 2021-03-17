@@ -34,10 +34,11 @@ Milestones :
   1. Directly storing in the file and Object Initializers for C# types only [M]
   2. Thread safety [M]
   3. In memory: Object initializers also for hdf5 objects to support factory methods for parts of file content. [M]
+  4. open modes: R/W must exist; R/W create if not exist; RO
 
 Maybe:
-  4. Slices / partial reads [S]
-  5. Extra sugar: add group, add dataset and add attribute short cut methods on Group and DataSet [C]
+  5. Slices / partial reads [S]
+  6. Extra sugar: add group, add dataset and add attribute short cut methods on Group and DataSet [C]
 
 
 Not planned:

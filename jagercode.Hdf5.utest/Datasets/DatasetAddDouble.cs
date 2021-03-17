@@ -11,7 +11,7 @@ using jagercode.Testing;
 namespace jagercode.Hdf5.utest.Datasets
 {
 	[TestFixture]	
-	public class DatasetAddDouble : TestBase, IAddShapesDataset<double>
+	public class DatasetAddDouble : TestBase, ITestShapesOf<double>
 	{
 		private readonly Site _site = Site.AtTypeAssemblyPath(typeof(DatasetAddDouble));
 
@@ -32,7 +32,7 @@ namespace jagercode.Hdf5.utest.Datasets
 		}
 
 		[Test]
-		public void Add_1d()
+		public void Test_1d_value()
 		{
 			var arr = new[] { 1e6, 2e6, 3e6 };
 			var name = CurrentMethodName();
@@ -43,25 +43,25 @@ namespace jagercode.Hdf5.utest.Datasets
 		}
 
 		[Test]
-		public void Add_2d()
+		public void Test_2d_value()
 		{
 			throw new NotImplementedException();
 		}
 
 		[Test]
-		public void Add_3d()
+		public void Test_3d_value()
 		{
 			throw new NotImplementedException();
 		}
 
 		[Test]
-		public void Add_8d()
+		public void Test_8d_value()
 		{
 			throw new NotImplementedException();
 		}
 
 		[Test]
-		public void Add_scalar()
+		public void Test_scalar_value()
 		{
 
 			throw new NotImplementedException();
