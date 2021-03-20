@@ -12,7 +12,9 @@ namespace jagercode.Hdf5
 {
 	using Internal;
 
-
+	// Q: Make it abstract? Unify dataset and attribute approach for consistency.
+	// Q: start object based instead of generic? What's convenient? Object type might be more convenient for iterating and so, but feels outdated. 
+	// So many decisions to make.... -_-
 	public class DataSet : INode, INdEntry
 	{
 
@@ -37,7 +39,7 @@ namespace jagercode.Hdf5
 
 	   /// <summary>
 		/// Dataset operations on HDF.PInvoke. 
-		/// Todo: Move to internal. partial HDF class? 
+		/// Q: Move to internal as eg a partial HDF class? Design decision: distribute HDF.PInvoke over the object model or have it as a separate "layer"
 		/// </summary>
 		internal static class HDF
 		{
@@ -252,9 +254,9 @@ namespace jagercode.Hdf5
 			set { }
 		}
 
+		
 		public IDictionary<string, object> AsDictionary() { return new Easy.DataSetDictionary(this); }
-
-
+		
 		public void Add<T>(string name, T value)
 		{ }
 
@@ -262,6 +264,13 @@ namespace jagercode.Hdf5
 		{ }
 
 		public DataSet Create<T>(string name, T value) { throw new NotImplementedException(); }
+
+		//// Q: <TElem> or <TValue>
+		// public ChunkedDataSet CreateChunked<T>() { throw new NotImplementedException(); }
+		//
+		// public StreamDataSet CreateStreamed<T>() => throw new NotImplementedException();
+		// 
+		// also need the ability to store data first and name and link it later? (anonymous dataset creation) 
 
 		public IEnumerator<DataSet> GetEnumerator()
 		{
