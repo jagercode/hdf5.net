@@ -1,12 +1,9 @@
-﻿using System;
+﻿using HDF.PInvoke;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
-
-using HDF.PInvoke;
+using System.Linq;
 
 namespace jagercode.Hdf5
 {
@@ -20,7 +17,7 @@ namespace jagercode.Hdf5
 
 		#region INode implementation
 		public string Name { get; set; }
-		public AttributeCollection Attributes {get;}
+		public AttributeCollection Attributes { get; }
 		public string Location { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		#endregion
 
@@ -29,7 +26,7 @@ namespace jagercode.Hdf5
 		public ulong[] Shape { get; }
 		public bool IsScalar => Shape.Length == 0;
 		public Type ElementType { get; }
-		public T Get<T>(){ throw new NotImplementedException(); }
+		public T Get<T>() { throw new NotImplementedException(); }
 		public void Set<T>(T value) { }
 		public object ValueAsObject { get; set; }
 		#endregion
@@ -37,7 +34,7 @@ namespace jagercode.Hdf5
 		//public INdArray Value { get; set; }
 
 
-	   /// <summary>
+		/// <summary>
 		/// Dataset operations on HDF.PInvoke. 
 		/// Q: Move to internal as eg a partial HDF class? Design decision: distribute HDF.PInvoke over the object model or have it as a separate "layer"
 		/// </summary>
@@ -74,16 +71,25 @@ namespace jagercode.Hdf5
 				Id id = H5D.open(fileId, h5Path, H5P.DEFAULT);
 				if (!id.IsValid)
 				{
-					if (Path.Exists(fileId, h5Path)) throw new ArgumentException();
+					if (Path.Exists(fileId, h5Path))
+					{
+						throw new ArgumentException();
+					}
+
 					throw new ArgumentException($"path not found: {h5Path}");
 				}
-				using (var dataSetHnd = new SafeIdHandle(id, H5D.close))
-				using (var spaceHnd = new SafeIdHandle(H5D.get_space(dataSetHnd.Id), H5S.close))
+				using (SafeIdHandle dataSetHnd = new SafeIdHandle(id, H5D.close))
+				using (SafeIdHandle spaceHnd = new SafeIdHandle(H5D.get_space(dataSetHnd.Id), H5S.close))
 				{
 					if (!dataSetHnd.Id.IsValid)
+					{
 						throw new InvalidOperationException($"Failed to open dataset at {h5Path}");
+					}
+
 					if (!spaceHnd.Id.IsValid)
+					{
 						throw new InvalidOperationException($"Failed to open data space of dataset at {h5Path}");
+					}
 
 					// verify data types and size. 
 					Id storageTypeId = H5D.get_type(dataSetHnd.Id);
@@ -94,13 +100,16 @@ namespace jagercode.Hdf5
 					}
 
 					int rank = H5S.get_simple_extent_ndims(spaceHnd.Id);
-					if (rank != 1) throw new ArgumentException($"Dataset is {rank}D. Expected 1D dataset at {h5Path}");
+					if (rank != 1)
+					{
+						throw new ArgumentException($"Dataset is {rank}D. Expected 1D dataset at {h5Path}");
+					}
 
 					ulong[] dims = new ulong[rank];
 
 					H5S.get_simple_extent_dims(spaceHnd.Id, dims, null);
 					ulong arrayLength = 1;
-					foreach (var l in dims)
+					foreach (ulong l in dims)
 					{
 						arrayLength *= l;
 					}
@@ -108,7 +117,7 @@ namespace jagercode.Hdf5
 					// read array (shape may be inferred w/ H5S.get_simple_extent_ndims)
 					array = new TElem[arrayLength];
 					// Array arr = Array.CreateInstance(typeof(TElem), (int) arrayLength);
-					using (var gch = new PinnedGCHandle(array))
+					using (PinnedGCHandle gch = new PinnedGCHandle(array))
 					{
 						H5D.read(dataSetHnd.Id, /*storageTypeId*/ memTypeId, H5S.ALL, H5S.ALL, H5P.DEFAULT,
 							gch.AddressPtr);
@@ -163,11 +172,11 @@ namespace jagercode.Hdf5
 					throw new ArgumentException(name); // todo: argument exception
 				}
 
-				var nameBytes = name.ToUtf8Bytes();
+				byte[] nameBytes = name.ToUtf8Bytes();
 
 				Debug.WriteLine($"Dataset '{name}' utf-8 bytes: [{string.Join(", ", nameBytes.Select(b => b.ToString()))}]");
 
-				var dataspaceId = Id.Invalid;
+				Id dataspaceId = Id.Invalid;
 				try
 				{
 					dataspaceId = H5S.create_simple(shape.Length, shape, null);
@@ -186,7 +195,7 @@ namespace jagercode.Hdf5
 
 					// Write the dataset. 
 					Id memType = typeMapping.MemoryType;
-					using (var pinnedObj = new PinnedGCHandle(values))
+					using (PinnedGCHandle pinnedObj = new PinnedGCHandle(values))
 					{
 						// GCHandle hnd = GCHandle.Alloc(values, GCHandleType.Pinned);
 						// try
@@ -231,11 +240,12 @@ namespace jagercode.Hdf5
 		public DataSet(string name, TValue value)
 		{ }
 
-		public TValue Value { get => base.Get<TValue>(); set=>base.Set<TValue>(value); }
+		public TValue Value { get => base.Get<TValue>(); set => base.Set<TValue>(value); }
 
-		public static implicit operator TValue(DataSet<TValue> ds) => ds.Value;
-
-
+		public static implicit operator TValue(DataSet<TValue> ds)
+		{
+			return ds.Value;
+		}
 	}
 
 
@@ -250,27 +260,34 @@ namespace jagercode.Hdf5
 		// bummer: https://stackoverflow.com/questions/494827/why-it-is-not-possible-to-define-generic-indexers-in-net
 		public DataSet this[string pathOrName]
 		{
-			get { return default(DataSet); }
+			get => default(DataSet);
 			set { }
 		}
 
-		
+
 		public IDictionary<string, object> AsDictionary() { return new Easy.DataSetDictionary(this); }
-		
+
 		public void Add<T>(string name, T value)
 		{ }
 
-		public void Add(DataSet dataSet)
-		{ }
 
 		public DataSet Create<T>(string name, T value) { throw new NotImplementedException(); }
 
-		//// Q: <TElem> or <TValue>
+		// >> future work
+		//public void Add(DataSet dataSet)
+		//{ }
+
 		// public ChunkedDataSet CreateChunked<T>() { throw new NotImplementedException(); }
-		//
+
 		// public StreamDataSet CreateStreamed<T>() => throw new NotImplementedException();
+
+		// public Table CreateTable<T>() => throw new NotImplementedException();
+
+		// public PacketTable CreatePacketTable<T>() => throw new NotImplementedException();
+
 		// 
 		// also need the ability to store data first and name and link it later? (anonymous dataset creation) 
+		// <<
 
 		public IEnumerator<DataSet> GetEnumerator()
 		{

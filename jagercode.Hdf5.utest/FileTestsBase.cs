@@ -9,7 +9,7 @@ namespace jagercode.Hdf5.utest
 {
 	internal abstract class FileTestsBase : TestBase
 	{
-		protected FileTestsBase()
+		protected  FileTestsBase()
 		{
 			Site = Site.AtTypeAssemblyPath(this.GetType());
 		}

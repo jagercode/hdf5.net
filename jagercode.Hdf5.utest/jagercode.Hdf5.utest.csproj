@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Datasets\DatasetAddDouble.cs" />
     <Compile Include="Datasets\DatasetCreateDoubles.cs" />
+    <Compile Include="Datasets\DatasetWriteReadBackBase.cs" />
+    <Compile Include="Datasets\DatasetWriteReadDoubleTest.cs" />
     <Compile Include="Datasets\IAddDataset.cs" />
     <Compile Include="FileDisposeTests.cs" />
     <Compile Include="FileTests.cs" />

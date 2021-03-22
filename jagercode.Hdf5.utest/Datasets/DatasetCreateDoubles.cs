@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace jagercode.Hdf5.utest.Datasets
 {
 	[TestFixture]
-	class DatasetCreateDoubles : FileTestsBase, ITestShapesOf<double>
+	class DatasetCreateDoubles : FileTestsBase, IMultiShapeTestCasesOf<double>
 	{
 		public void Test_1d_value()
 		{

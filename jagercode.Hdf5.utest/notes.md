@@ -24,7 +24,7 @@
   * decide whether to use generic or object type read / write hdf calls.
   * DRY-design for read / write
   * ... (and more)
-  \u/ reached milestone 
+  \u/ reached milestone 1.
 
 
 # Roadmap
@@ -61,15 +61,19 @@ This requires that the repack and maybe other hdf5 libs are part of the distribu
 # Analysis / Decide / Evaluate
 
   1. Datasets & Attributes: abstract + generic subclass <-> concrete generic <-> object return types
-
+  2. The whole idea is to have hierarchically structured data. HDF5 is just an on disk implementation of that.
+     It is only logical to have a non-hdf dependent interface (Hierarchical Data Structure) for other implementations
+	 like streaming and in memory. Interface objects can then be used in any application that does not need to know about where
+	 the data is actually stored (mem, disk, server, etc). This also allows for switching and converting between HDF5 and ExDir for example.
+	 For design matters take NPOI as an example of an Excel analogy.
 
 # Design
 
 ## Datasets
-Datasets are intended to be large, so their data remains on disk until it's needed ()
+Datasets are intended to be large, so their data remains on disk until it's needed (lazy loading of dataset). 
 
 ## Attributes
-Attribtues are intended to be relatively small, so the whole collection can be loaded from disk upon first access (lazy loading)
+Attribtues are intended to be relatively small, so the whole collection can be loaded from disk upon first access (lazy loading of attributes collection)
 
 ## Errors
 

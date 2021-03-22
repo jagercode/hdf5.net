@@ -12,13 +12,14 @@ namespace jagercode.Hdf5.utest
 	using jagercode.Testing;
 
 	[TestFixture]
-	public class DatasetTests
+	internal class DatasetTests : FileTestsBase
 	{
 		private Site _site = Site.AtTypeAssemblyPath(typeof(DatasetTests));
 
 		[Test]
 		public void Add_double_succeeds()
 		{
+			//var fpath = this
 			var f = new File("");
 			f.DataSets["double"].Set(2.33d);
 			f.Dispose();

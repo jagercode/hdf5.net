@@ -29,16 +29,17 @@ namespace jagercode.Hdf5.utest
 					DataSets =
 					{
 						{ "Data set", 12d },
-						{ new DataSet<double>("aap", 13d)
-						{
-							Attributes =
-							{
-								{ "aap double", 2d },
-								{"aap string", "aap string" },
-							}
+						// future work (milestone 3, In Memory)
+						//{ new DataSet<double>("aap", 13d)
+						//{
+						//	Attributes =
+						//	{
+						//		{ "aap double", 2d },
+						//		{"aap string", "aap string" },
+						//	}
 
-						}
-						},
+						//}
+						//},
 					},
 					Attributes =
 					{
