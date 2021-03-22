@@ -9,8 +9,8 @@
     <ProjectGuid>{429C5A2C-628E-43BD-B31D-26A99D364779}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>jagercode.Hdf5.utest</RootNamespace>
-    <AssemblyName>jagercode.Hdf5.utest</AssemblyName>
+    <RootNamespace>Hdf5.utest</RootNamespace>
+    <AssemblyName>Hdf5.net.utest</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -66,11 +66,11 @@
     <None Include="resources\file.h5" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\jagercode.Hdf5\jagercode.Hdf5.csproj">
+    <ProjectReference Include="..\Hdf5.net\Hdf5.net.csproj">
       <Project>{8624c1a5-b999-4d24-b309-12c32ec014c0}</Project>
       <Name>jagercode.Hdf5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\jagercode.Testing\jagercode.Testing.csproj">
+    <ProjectReference Include="..\common.Testing\common.Testing.csproj">
       <Project>{0154c653-7bad-4842-9327-336bc6068acd}</Project>
       <Name>jagercode.Testing</Name>
     </ProjectReference>

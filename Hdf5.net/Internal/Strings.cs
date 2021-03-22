@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace jagercode.Hdf5.Internal
+namespace Hdf5.Internal
 {
 	internal static class Utf8Extensions
 	{

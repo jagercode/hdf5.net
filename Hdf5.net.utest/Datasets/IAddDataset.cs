@@ -1,4 +1,4 @@
-﻿namespace jagercode.Hdf5.utest.Datasets
+﻿namespace Hdf5.utest.Datasets
 {
 	internal interface IMultiShapeTestCasesOf<T>
 	{

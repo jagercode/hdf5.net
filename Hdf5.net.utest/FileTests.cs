@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Linq;
 
-namespace jagercode.Hdf5.utest
+namespace Hdf5.utest
 {
 	[TestFixture]
 	internal class FileTests : FileTestsBase

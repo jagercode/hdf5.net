@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace jagercode.Hdf5.utest.Datasets
+namespace Hdf5.utest.Datasets
 {
 	internal class DatasetWriteReadDoubleTest : DatasetWriteReadBackTestBase<double>
 	{

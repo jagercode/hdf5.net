@@ -7,8 +7,8 @@
     <ProjectGuid>{0154C653-7BAD-4842-9327-336BC6068ACD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>jagercode.Testing</RootNamespace>
-    <AssemblyName>jagercode.Testing</AssemblyName>
+    <RootNamespace>Common.Testing</RootNamespace>
+    <AssemblyName>common.testing</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

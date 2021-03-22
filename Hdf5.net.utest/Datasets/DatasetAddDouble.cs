@@ -8,7 +8,7 @@
 
 //using jagercode.Testing;
 
-//namespace jagercode.Hdf5.utest.Datasets
+//namespace Hdf5.utest.Datasets
 //{
 //	[TestFixture]
 //	internal class DatasetAddDouble : FileTestsBase, IMultiShapeTestCasesOf<double>

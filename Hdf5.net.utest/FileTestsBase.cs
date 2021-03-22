@@ -1,11 +1,11 @@
-﻿using jagercode.Testing;
+﻿using Common.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.Hdf5.utest
+namespace Hdf5.utest
 {
 	internal abstract class FileTestsBase : TestBase
 	{

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace jagercode.Hdf5
+namespace Hdf5
 {
 	using Internal;
 

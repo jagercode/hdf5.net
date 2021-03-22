@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using HDF.PInvoke;
 
 
-namespace jagercode.Hdf5.Internal
+namespace Hdf5.Internal
 {
 	using Hdf5Id = Id;
 

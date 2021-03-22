@@ -6,10 +6,10 @@ using NUnit.Framework;
 // solution usings
 
 
-namespace jagercode.Hdf5.utest
+namespace Hdf5.utest
 {
-	using jagercode.Hdf5;
-	using jagercode.Testing;
+	using Hdf5;
+	using Common.Testing;
 
 	[TestFixture]
 	internal class DatasetTests : FileTestsBase

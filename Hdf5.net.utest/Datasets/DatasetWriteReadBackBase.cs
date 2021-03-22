@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 //
 using NUnit.Framework;
 //
-using jagercode.Hdf5;
 
-namespace jagercode.Hdf5.utest.Datasets
+namespace Hdf5.utest.Datasets
 {
 	[TestFixture]
 	internal abstract class DatasetWriteReadBackTestBase<T> : FileTestsBase, IMultiShapeTestCasesOf<T>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace jagercode.Hdf5
+namespace Hdf5
 {
 	public class Group : INode
 	{

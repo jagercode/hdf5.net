@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.Hdf5.Internal
+namespace Hdf5.Internal
 {
 	/// <summary>
 	/// Path formatting, building and checking.

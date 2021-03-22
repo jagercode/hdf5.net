@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 
 
-namespace jagercode.Hdf5.utest
+namespace Hdf5.utest
 {
 	[TestFixture]
 	public class ScenarioTests

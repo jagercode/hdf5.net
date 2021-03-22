@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jagercode.Hdf5.utest
+namespace Hdf5.utest
 {
 	[TestFixture]
 	internal class FileDisposeTests : FileTestsBase

@@ -1,7 +1,7 @@
 ﻿using HDF.PInvoke;
 using System;
 
-namespace jagercode.Hdf5.Internal
+namespace Hdf5.Internal
 {
 	using hid_t = System.Int64;
 	using herr_t = System.Int32;

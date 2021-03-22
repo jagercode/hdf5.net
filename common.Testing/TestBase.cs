@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace jagercode.Testing
+namespace Common.Testing
 {
 	public abstract class TestBase
 	{
