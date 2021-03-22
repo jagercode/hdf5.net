@@ -1,7 +1,6 @@
 ﻿# Next actions
 
-  * refactor "jagercode." out.
-  * set-up test structure 
+  * merge dev to main after refactoring "jagercode." out.
   * write many unit tests:
     * dataset add supported datatypes in different shapes.
 	* dataset inspection: shape and element type
