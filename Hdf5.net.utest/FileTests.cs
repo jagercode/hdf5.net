@@ -1,6 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Linq;
+using System.IO;
+
 
 namespace Hdf5.utest
 {
@@ -15,11 +17,13 @@ namespace Hdf5.utest
 		[Test]
 		public void Open_file_succeeds_if_file_exists()
 		{
-			var fi = Site.CopyResourceToOut("file.h5");
-			var file = new File(fi);
-			// todo: test it is locked.
+			var fi =  new FileInfo(Site.CopyResourceToOut("file.h5"));
+			var file = new File(fi.FullName);
+			//  test it is locked.
+			Assert.DoesNotThrow(() => fi.Delete());
 			file.Close();
-			// todo: test it is freed. 
+			// test it is freed. 
+			Assert.DoesNotThrow(() => fi.Delete());
 		}
 
 		[Test]

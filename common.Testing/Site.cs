@@ -24,10 +24,10 @@ namespace Common.Testing
 
 		public static Site AtTypeAssemblyPath(Type type)
 		{
-			var path = type.Assembly.CodeBase;
+			var uripath = new Uri( type.Assembly.CodeBase);
+			var path = uripath.LocalPath;
 			path = Path.GetDirectoryName(path);
 			return new Site(path);
-
 		}
 
 		public string ReserveOutForResource(string pattern)
