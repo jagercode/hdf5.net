@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hdf5
 {
-	using Internal;
+	using HdfBridge;
 
 	public abstract class Attribute : INdEntry
 	{
@@ -148,7 +148,7 @@ namespace Hdf5
 						{
 							// such large arrays aren't expected on attributes anyway... 
 							throw new NotSupportedException(
-								$"One or more dimensions of the data exceeds Int64.MaxValue and cannot be used for dynamic array creation. Shape: {Internal.Shape.ToString(h5Dims)}");
+								$"One or more dimensions of the data exceeds Int64.MaxValue and cannot be used for dynamic array creation. Shape: {HdfBridge.Shape.ToString(h5Dims)}");
 						}
 
 						object toPin = returnRank == 0

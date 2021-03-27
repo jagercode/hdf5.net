@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;H5_1_10</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -55,15 +55,15 @@
     <Compile Include="Group.cs" />
     <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
-    <Compile Include="Internal\DataSpace.cs" />
-    <Compile Include="Internal\Result.cs" />
-    <Compile Include="Internal\Id.cs" />
-    <Compile Include="Internal\Path.cs" />
-    <Compile Include="Internal\SafeIdHandle.cs" />
-    <Compile Include="Internal\SafePinnedGCHandle.cs" />
-    <Compile Include="Internal\Shape.cs" />
-    <Compile Include="Internal\Strings.cs" />
-    <Compile Include="Internal\TypeMappings.cs" />
+    <Compile Include="HdfBridge\DataSpace.cs" />
+    <Compile Include="HdfBridge\Result.cs" />
+    <Compile Include="HdfBridge\Id.cs" />
+    <Compile Include="HdfBridge\Path.cs" />
+    <Compile Include="HdfBridge\SafeIdHandle.cs" />
+    <Compile Include="HdfBridge\SafePinnedGCHandle.cs" />
+    <Compile Include="HdfBridge\Shape.cs" />
+    <Compile Include="HdfBridge\Strings.cs" />
+    <Compile Include="HdfBridge\TypeMappings.cs" />
     <Compile Include="NdArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

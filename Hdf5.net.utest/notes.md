@@ -90,8 +90,12 @@ NotFoundException : InvalidOperation
 ## Unit tests
 Using NUnit and not MSTest to be independent of Visual Studio installed. 
 
-# Reference
+## Build instructions
+Use Compiler Symbol H5_1_10 for hdf5 1.10.x and H5_1_8 for hdf5 1.8.x. 
+(no Cmake yet)
 
+
+# Reference
 
 ## sharpHDF
 

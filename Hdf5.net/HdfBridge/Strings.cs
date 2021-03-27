@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Hdf5.Internal
+namespace Hdf5.HdfBridge
 {
 	internal static class Utf8Extensions
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Hdf5.Internal
+namespace Hdf5.HdfBridge
 {
 	using Hdf5Id = Id;
 	using hid_t = Int64;

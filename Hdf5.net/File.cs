@@ -3,18 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using io = System.IO;
+using System.Diagnostics;
+//
+using HDF.PInvoke;
 
 namespace Hdf5
 {
+	using HdfBridge;
+
 	public class File : Group, IDisposable
 	{
 		/// <summary>
-		/// Opens if exists; Creates otherwise
+		/// Opens file if exists; Creates otherwise
 		/// </summary>
 		/// <param name="path"></param>
 		public File(string path)
 		{
-			// how to set always existing rootgroup here.
+			if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException($"Is null or whitespace", nameof(path));
+
+			Path = path;
+			// set always existing rootgroup here.
+
+			if (io.File.Exists(path))
+			{
+				// open
+				_id = H5F.open(path, H5F.ACC_RDWR);
+				if (!_id.IsValid) throw new InvalidOperationException($"Unable to open file '{path}' for read/write.");
+				return;
+			}
+
+			// create from scratch
+			_id = H5F.create(path, H5F.ACC_EXCL);
+			if (!_id.IsValid)
+			{
+				// check some trivialities
+				var dir = io.Path.GetDirectoryName(path);
+				if (null == dir)
+					throw new io.DirectoryNotFoundException($"No folder specified; path='{path}'");
+
+				if (!io.Directory.Exists(dir))
+					throw new io.DirectoryNotFoundException($"Folder does not exist; path='{path}'");
+
+				throw new InvalidOperationException($"Unable to create file at '{path}'.");
+			}
 		}
 
 		public void Close()
@@ -22,12 +54,15 @@ namespace Hdf5
 			throw new NotImplementedException();
 		}
 
+		public string Path { get; }
+
 		// inherited: public DataSetCollection DataSets { get; }
 
 
 		#region IDisposable Support
 
 		// TODO: fields managed by Dispose
+		private Id _id;
 
 		private bool disposedValue = false; // To detect redundant calls
 

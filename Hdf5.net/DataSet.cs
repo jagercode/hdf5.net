@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Hdf5
 {
-	using Internal;
+	using HdfBridge;
 
 	// Q: Make it abstract? Unify dataset and attribute approach for consistency.
 	// Q: start object based instead of generic? What's convenient? Object type might be more convenient for iterating and so, but feels outdated. 
