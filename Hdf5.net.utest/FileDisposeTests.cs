@@ -52,7 +52,23 @@ namespace Hdf5.utest
 				Assert.Throws<IOException>(() => fi.Delete());
 			}
 			// test it is freed. 
+			// WIP: file is not freed on dispose --> how to unlock the file? 
 			Assert.DoesNotThrow(() => fi.Delete());
 		}
+
+		[Test]
+		public void Open_file_throws_if_file_already_open()
+		{
+			var fi = new FileInfo(Site.CopyResourceToOut("file.h5"));
+			
+			using (var file = new File(fi.FullName))
+			{
+				//  test it is locked.
+				Assert.Throws<IOException>(() => { var file2 = new File(fi.FullName); });
+			}
+			// test it is freed. 
+			Assert.DoesNotThrow(() => fi.Delete());
+		}
+
 	}
 }

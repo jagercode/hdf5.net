@@ -19,7 +19,9 @@ namespace Common.Testing
 		private Site(string root)
 		{
 			Out = new DirectoryInfo(Path.Combine(root, Default.OutFolder));
+			if (!Out.Exists) Out.Create();
 			Resources = new DirectoryInfo(Path.Combine(root, Default.CasesFolder));
+			if (!Resources.Exists) throw new DirectoryNotFoundException($"'{Resources.FullName}'");
 		}
 
 		public static Site AtTypeAssemblyPath(Type type)
@@ -42,7 +44,7 @@ namespace Common.Testing
 
 		public DirectoryInfo Resources { get; private set; }
 		public DirectoryInfo Out { get; private set; }
-
+		
 		public string ReserveOut(string fileName)
 		{
 			var file = Out.NewFileInfo(fileName);

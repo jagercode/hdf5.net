@@ -57,6 +57,11 @@ Not planned:
 Dispose / close should repack if there is at least one deletion in the file. 
 This requires that the repack and maybe other hdf5 libs are part of the distribution.
 
+## Open & Close := Create & Dispose instance
+Open and close methods will arrive as soon as different open file scenario's are needed.
+Currently, constructor opens or creates for R/W and Dispose closes the file.
+Objects from the file still alive after disposal will receive an Object Disposed exception if they access their internal File pointer (parent / owner)
+
 
 # Analysis / Decide / Evaluate
 
@@ -66,6 +71,7 @@ This requires that the repack and maybe other hdf5 libs are part of the distribu
 	 like streaming and in memory. Interface objects can then be used in any application that does not need to know about where
 	 the data is actually stored (mem, disk, server, etc). This also allows for switching and converting between HDF5 and ExDir for example.
 	 For design matters take NPOI as an example of an Excel analogy.
+
 
 # Design
 
@@ -77,10 +83,10 @@ Attribtues are intended to be relatively small, so the whole collection can be l
 
 ## Errors
 
-Invalid path given  --> Argument Exception
-Path does not exist (Dataset, Group) --> Invalid Operation Exception (sub, PathNotFoundException)
-Attribute does not exist --> Invalid Operation (alt,KeyNotFound, )
-Path already taken --> Invalid Operation
+Invalid hdf5 path given  --> Argument Exception
+Hdf5 path does not exist (Dataset, Group) --> Invalid Operation Exception (sub, PathNotFoundException)
+Attribute does not exist --> Invalid Operation (alt, KeyNotFound)
+Hdf5 path already taken --> Invalid Operation
 
 *) KeyNotFound (system) is appropriate. It is a dictionary in the sense that the name of every entry must be unique. 
 *) ResourceNotFound (Azure) is also appropriate as every entry in the file is a resource identified at one or more unique paths. 

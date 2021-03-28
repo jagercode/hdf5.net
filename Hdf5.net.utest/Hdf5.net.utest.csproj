@@ -63,7 +63,9 @@
   <ItemGroup>
     <None Include="notes.md" />
     <None Include="packages.config" />
-    <None Include="resources\file.h5" />
+    <None Include="resources\file.h5">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hdf5.net\Hdf5.net.csproj">

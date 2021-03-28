@@ -49,9 +49,21 @@ namespace Hdf5
 			}
 		}
 
-		public void Close()
+		internal void Close()
 		{
-			throw new NotImplementedException();
+			if (_id.IsValid)
+			{
+				// close flushes implicitly; no need to H5F.flush(Id, H5F.scope_t.LOCAL);
+				var res = (Result)H5F.close(_id);
+				Debug.Assert(res.IsOk, $"H5F.close(Id) must succeed on Dispose; File: '{Path}'");
+				//if (res.HasFailed)
+				//{
+				//	// todo: throw or log error. ($"Hdf5File.Dispose, H5F.close FAILED; File: '{Path}'.");
+				//	// Notifications.Error("Hdf5File.Dispose, H5F.close:  FAILED", "file: " + FilePath);
+				//}
+				_id = Id.Invalid;
+			}
+
 		}
 
 		public string Path { get; }
@@ -77,6 +89,7 @@ namespace Hdf5
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
 				// TODO: set large fields to null.
+				Close();
 
 				disposedValue = true;
 			}
