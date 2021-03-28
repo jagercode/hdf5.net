@@ -68,8 +68,7 @@ namespace Hdf5
 
 		public string Path { get; }
 
-		// inherited: public DataSetCollection DataSets { get; }
-
+		
 
 		#region IDisposable Support
 
@@ -84,18 +83,18 @@ namespace Hdf5
 			{
 				if (disposing)
 				{
-					// TODO: dispose managed state (managed objects).
+					// dispose managed state (managed objects).
 				}
 
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
+				// free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// set large fields to null.
 				Close();
 
 				disposedValue = true;
 			}
 		}
 
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		// override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
 		// ~File() {
 		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
 		//   Dispose(false);
@@ -106,7 +105,7 @@ namespace Hdf5
 		{
 			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
 			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
+			// uncomment the following line if the finalizer is overridden above.
 			// GC.SuppressFinalize(this);
 		}
 		#endregion

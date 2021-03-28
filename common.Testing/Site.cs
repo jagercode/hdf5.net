@@ -18,10 +18,10 @@ namespace Common.Testing
 
 		private Site(string root)
 		{
-			Out = new DirectoryInfo(Path.Combine(root, Default.OutFolder));
-			if (!Out.Exists) Out.Create();
-			Resources = new DirectoryInfo(Path.Combine(root, Default.CasesFolder));
-			if (!Resources.Exists) throw new DirectoryNotFoundException($"'{Resources.FullName}'");
+			OutDir = new DirectoryInfo(Path.Combine(root, Default.OutFolder));
+			if (!OutDir.Exists) OutDir.Create();
+			ResourceDir = new DirectoryInfo(Path.Combine(root, Default.CasesFolder));
+			if (!ResourceDir.Exists) throw new DirectoryNotFoundException($"'{ResourceDir.FullName}'");
 		}
 
 		public static Site AtTypeAssemblyPath(Type type)
@@ -34,20 +34,42 @@ namespace Common.Testing
 
 		public string ReserveOutForResource(string pattern)
 		{
-			throw new NotImplementedException();
+			FileInfo resource;
+			try
+			{
+				resource = ResourceDir.EnumerateFiles(pattern).First();
+			}
+			catch
+			{
+				throw new FileNotFoundException(pattern);
+			}
+			FileInfo outFile = new FileInfo (Path.Combine(OutDir.FullName, pattern));
+			if (outFile.Exists) outFile.Delete();
+			return outFile.FullName;
 		}
 
 		public string CopyResourceToOut(string pattern)
 		{
-			throw new NotImplementedException();
+			FileInfo resource;
+			try
+			{
+				resource = ResourceDir.EnumerateFiles(pattern).First();
+			}
+			catch
+			{
+				throw new FileNotFoundException(pattern);
+			}
+			string outPath = Path.Combine(OutDir.FullName, pattern);
+			resource.CopyTo(outPath, true);
+			return outPath;
 		}
 
-		public DirectoryInfo Resources { get; private set; }
-		public DirectoryInfo Out { get; private set; }
+		public DirectoryInfo ResourceDir { get; private set; }
+		public DirectoryInfo OutDir { get; private set; }
 		
 		public string ReserveOut(string fileName)
 		{
-			var file = Out.NewFileInfo(fileName);
+			var file = OutDir.NewFileInfo(fileName);
 			if (file.Exists) file.Delete();
 			return file.FullName;
 		}
