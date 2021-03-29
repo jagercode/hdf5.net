@@ -53,8 +53,13 @@ namespace Hdf5
 		{
 			if (_id.IsValid)
 			{
+				// Close keeps the file open while there are still open file objects.
+				// --> Force closing of all remainging open objects.
+				CloseOpenObjects();
+
 				// close flushes implicitly; no need to H5F.flush(Id, H5F.scope_t.LOCAL);
 				var res = (Result)H5F.close(_id);
+				
 				Debug.Assert(res.IsOk, $"H5F.close(Id) must succeed on Dispose; File: '{Path}'");
 				//if (res.HasFailed)
 				//{
@@ -62,6 +67,35 @@ namespace Hdf5
 				//	// Notifications.Error("Hdf5File.Dispose, H5F.close:  FAILED", "file: " + FilePath);
 				//}
 				_id = Id.Invalid;
+
+				
+			}
+
+		}
+
+		internal void CloseOpenObjects()
+		{
+			// close all open objects 
+			IntPtr countPtr = H5F.get_obj_count(_id, H5F.OBJ_ALL);
+			int objCount = (int)countPtr;
+
+			var objIds = Id.CreateLowLevelArray(objCount);
+
+			using (var gch = new PinnedGCHandle(objIds))
+			{
+				H5F.get_obj_ids(_id,H5F.OBJ_ALL, countPtr, gch.AddressPtr);
+				
+				// Note, the H5F.get_obj_ids(...) unit test did it like so:
+				// H5.allocate_memory(countPtr, 0);
+				// ...
+				// H5.free_memory(buf)
+
+			}
+
+			foreach (var objId in objIds)
+			{
+				Result res =  H5O.close(objId);
+				Debug.Assert(res.IsOk, $"close open object id {objId}");
 			}
 
 		}

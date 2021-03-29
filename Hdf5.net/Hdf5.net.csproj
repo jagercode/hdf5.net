@@ -53,6 +53,7 @@
     <Compile Include="Easy\DataSetDictionary.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="HdfBridge\AllocatedMemory.cs" />
     <Compile Include="INdEntry.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="HdfBridge\DataSpace.cs" />

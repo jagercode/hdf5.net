@@ -40,7 +40,7 @@ namespace Hdf5
 		/// </summary>
 		internal static class HDF
 		{
-			internal static void With(Id id, Action action)
+			internal static void With(Id id, Action<Id> action)
 			{
 				Id.With(id, action, H5D.close);
 			}

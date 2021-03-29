@@ -1,7 +1,6 @@
 ﻿# Next actions
 
-  * merge dev to main after refactoring "jagercode." out.
-  * write many unit tests:
+  * tdd datasets:
     * dataset add supported datatypes in different shapes.
 	* dataset inspection: shape and element type
 	* dataset get value
@@ -9,10 +8,14 @@
 	* dataset add invalid name
 	* dataset add name exists
 	* dataset rename
-	* attribute add all supported datatypes in differen shapes
-	* attribute add to dataset
+  * deliver datasets to main
+  * tdd groups:
 	* group add (valid name, invalid name, name exists)
 	* group rename (valid name, invalid name, name exists)
+  * deliver groups to main
+  * tdd attributes:
+	* attribute add all supported datatypes in differen shapes
+	* attribute add to dataset
 	* attribute add to group
 	* attribute inspection: shape and element type
 	* attribute get value
@@ -61,7 +64,7 @@ This requires that the repack and maybe other hdf5 libs are part of the distribu
 Open and close methods will arrive as soon as different open file scenario's are needed.
 Currently, constructor opens or creates for R/W and Dispose closes the file.
 Objects from the file still alive after disposal will receive an Object Disposed exception if they access their internal File pointer (parent / owner)
-
+Close should close the file. Now it waits until the last open object ID is closed. A ForceClose() method requires registration and unregistration of file objects (nested Dispose).
 
 # Analysis / Decide / Evaluate
 
@@ -74,6 +77,9 @@ Objects from the file still alive after disposal will receive an Object Disposed
 
 
 # Design
+
+## Ids, Handles and other Hdf.PInvoke mess
+hid_t, herr_t, ssize_t etc: Do NOT expose these via the Hdf5 public API unless interop with Low Level HDF.PInvoke is desired.
 
 ## Datasets
 Datasets are intended to be large, so their data remains on disk until it's needed (lazy loading of dataset). 

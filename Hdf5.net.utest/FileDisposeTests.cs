@@ -52,7 +52,6 @@ namespace Hdf5.utest
 				Assert.Throws<IOException>(() => fi.Delete());
 			}
 			// test it is freed. 
-			// WIP: file is not freed on dispose --> how to unlock the file? 
 			Assert.DoesNotThrow(() => fi.Delete());
 		}
 
