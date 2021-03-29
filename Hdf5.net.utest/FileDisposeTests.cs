@@ -56,8 +56,9 @@ namespace Hdf5.utest
 		}
 
 		[Test]
-		public void Can_open_file_twice_apparently()
+		public void Cannot_open_file_twice_for_write()
 		{
+
 			var path = Site.CopyResourceToOut("file.h5");
 			
 			using (var file = new File(path))
@@ -70,6 +71,12 @@ namespace Hdf5.utest
 			// test it is freed. 
 			Assert.DoesNotThrow(() => System.IO.File.Delete(path),"Delete file");
 			Assert.Inconclusive("Why can we open the same file twice?");
+		}
+
+		[Test]
+		public void Dangling_objects_throw_ObjectDisposed_if_accessed_after_disposal()
+		{
+			Assert.Inconclusive("Todo: implement when groups, datasets and attributes can be obtained from the file.");
 		}
 
 	}

@@ -49,6 +49,18 @@ namespace Hdf5
 			}
 		}
 
+		// <decision> If keeping open of file until last referenced object id has been closed
+		// or object garbage collected then implement methods below.
+		//public void SoftClose() => throw new NotImplementedException();
+
+		//public void Reopen() => throw new NotImplementedException();
+		// </decision>
+
+		/// <summary>
+		/// Hard closing file, including all open objects. 
+		/// Client code still using them should expect ObjectDisposedException upon
+		/// accessing objects from a closed file
+		/// </summary>
 		internal void Close()
 		{
 			if (_id.IsValid)
@@ -77,19 +89,20 @@ namespace Hdf5
 		{
 			// close all open objects 
 			IntPtr countPtr = H5F.get_obj_count(_id, H5F.OBJ_ALL);
-			int objCount = (int)countPtr;
+			int objCount = countPtr.ToInt32();
 
 			var objIds = Id.CreateLowLevelArray(objCount);
 
 			using (var gch = new PinnedGCHandle(objIds))
 			{
 				H5F.get_obj_ids(_id,H5F.OBJ_ALL, countPtr, gch.AddressPtr);
-				
-				// Note, the H5F.get_obj_ids(...) unit test did it like so:
-				// H5.allocate_memory(countPtr, 0);
-				// ...
-				// H5.free_memory(buf)
 
+				// Note, the H5F.get_obj_ids(...) unit test did it like so:
+				// IntPtr buf = H5.allocate_memory(new IntPtr(objCount * _id.H5AllocSize), 0);
+				// H5F.get_obj_ids(_id, H5F.OBJ_ALL, countPtr, buf);
+			   // H5.free_memory(buf)
+				// I think that's not right. The idea is to keep the values after calling the method
+				// so it must be C#'s memory and not H5's.
 			}
 
 			foreach (var objId in objIds)
@@ -97,7 +110,6 @@ namespace Hdf5
 				Result res =  H5O.close(objId);
 				Debug.Assert(res.IsOk, $"close open object id {objId}");
 			}
-
 		}
 
 		public string Path { get; }
@@ -106,7 +118,7 @@ namespace Hdf5
 
 		#region IDisposable Support
 
-		// TODO: fields managed by Dispose
+		// fields managed by Dispose
 		private Id _id;
 
 		private bool disposedValue = false; // To detect redundant calls
@@ -135,6 +147,9 @@ namespace Hdf5
 		// }
 
 		// This code added to correctly implement the disposable pattern.
+		/// <summary>
+		/// Close and flush all objects and release file lock. 
+		/// </summary>
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
