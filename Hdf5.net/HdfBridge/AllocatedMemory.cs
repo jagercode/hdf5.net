@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hdf5.HdfBridge
 {
+	/// <summary>
+	/// WIP: if needed to wrap H5.alloc_mem and H5.free_mem;
+	/// </summary>
 	internal class AllocatedMemory : IDisposable
 	{
 		public AllocatedMemory(int size)
