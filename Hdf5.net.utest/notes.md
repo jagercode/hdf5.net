@@ -42,6 +42,7 @@ Milestones :
 Maybe:
   5. Slices / partial reads [S]
   6. Extra sugar: add group, add dataset and add attribute short cut methods on Group and DataSet [C]
+  7. DimensionScale (might be renamed to DimensionAxis or just plain Axis for user clarity)
 
 
 Not planned:
@@ -81,6 +82,10 @@ Close should close the file. Now it waits until the last open object ID is close
 ## Ids, Handles and other Hdf.PInvoke mess
 hid_t, herr_t, ssize_t etc: Do NOT expose these via the Hdf5 public API unless interop with Low Level HDF.PInvoke is desired.
 
+Strategy until performance forces otherwise: Open objects upon access and close when done. 
+This saves us tracking all still open groups and datasets etcetera. 
+Consider making all public objects IDisposable: every instance keeping an Id open until it's disposed.
+
 ## Datasets
 Datasets are intended to be large, so their data remains on disk until it's needed (lazy loading of dataset). 
 
@@ -105,6 +110,14 @@ Using NUnit and not MSTest to be independent of Visual Studio installed.
 ## Build instructions
 Use Compiler Symbol H5_1_10 for hdf5 1.10.x and H5_1_8 for hdf5 1.8.x. 
 (no Cmake yet)
+
+
+## Style, naming etc
+
+Naming: I thing that '*Collection' is outdated and '*List' more appropriate.
+Object Oriented style: Separate datasets from groups as they are inherently different. 
+A hierarchy iterator might traverse all the nodes so "Group" and "Dataset" might implement INode.Chlldren where 
+DataSet always returns an empty list of INodes. 
 
 
 # Reference

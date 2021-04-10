@@ -1,10 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Hdf5.HdfBridge
 {
-	using Hdf5Id = Id;
 	using hid_t = Int64;
+
+	internal interface IMultiAccessable
+	{
+		void ClaimAccess(OpenStateHandle handle);
+		void DropAccess(OpenStateHandle hanedle);
+	}
+
+	/// <summary>
+	/// This class only opens upon creation and closes on dispose.
+	/// Doesn't track state of client. Clients must count for themselves.
+	/// O
+	/// </summary>
+	internal sealed class OpenStateHandle : IDisposable
+	{
+		private IMultiAccessable _client;
+		public OpenStateHandle(IMultiAccessable client)
+		{
+			_client = client;
+			_client.ClaimAccess(this);
+			_isDisposed = false;
+		}
+
+		private bool _isDisposed;
+
+		public void Dispose()
+		{
+			if (_isDisposed) return;
+
+			_isDisposed = true;
+			_client?.DropAccess(this);
+			_client = null;
+		}
+
+		~OpenStateHandle()
+		{
+			if (!_isDisposed) Dispose();
+		}
+	}
+
 
 	/// <summary>
 	/// Safe handle to an open Hdf5 item id.
@@ -16,6 +55,20 @@ namespace Hdf5.HdfBridge
 		private readonly Func<hid_t, int> _closeId;
 
 		/// <summary>
+		/// Constructor for keeping the object open upon Dispose. 
+		/// Initializes a new instance of the <see cref="SafeIdHandle"/> class.
+		/// Note: invalid handles are supported to prevent throwing from a using statement
+		/// in order to provide meaningful feedback. 
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		public SafeIdHandle(Id id)
+		{
+			Id = id;
+			_closeId = null;
+		}
+
+		/// <summary>
+		/// Contructor for closing the object upon Dispose. 
 		/// Initializes a new instance of the <see cref="SafeIdHandle"/> class.
 		/// Note: invalid handles are supported to prevent throwing from a using statement
 		/// in order to provide meaningful feedback. 
@@ -23,7 +76,7 @@ namespace Hdf5.HdfBridge
 		/// <param name="id">The identifier.</param>
 		/// <param name="closeAction">The close action.</param>
 		/// <exception cref="ArgumentNullException">closeAction</exception>
-		public SafeIdHandle(Hdf5Id id, Func<hid_t, int> closeAction)
+		public SafeIdHandle(Id id, Func<hid_t, int> closeAction)
 		{
 			Id = id;
 			_closeId = closeAction ?? throw new ArgumentNullException(nameof(closeAction));
@@ -37,10 +90,22 @@ namespace Hdf5.HdfBridge
 		/// </value>
 		public bool IsValid => Id.IsValid;
 
-		public Hdf5Id Id { get; private set; }
+		public static implicit operator Id(SafeIdHandle idHandle)
+		{
+			return idHandle.Id;
+		}
+
+		#region IDisposable implementation
+
+		public Id Id { get; private set; }
 
 		private void ReleaseUnmanagedResources()
 		{
+			if (null == _closeId)
+			{
+				// allowed to stay open: Id = Id.Invalid;
+				return;
+			}
 			Debug.WriteLine("//>> SafeHdf5ReleaseHandle.ReleaseUnmanagedResources");
 			Debug.Assert(Id.IsValid);
 			if (Id.IsValid)
@@ -57,7 +122,7 @@ namespace Hdf5.HdfBridge
 #endif
 				}
 			}
-			Id = Hdf5Id.Invalid;
+			Id = Id.Invalid;
 			Debug.WriteLine("//<< SafeHdf5ReleaseHandle.ReleaseUnmanagedResources");
 		}
 
@@ -71,5 +136,7 @@ namespace Hdf5.HdfBridge
 		{
 			ReleaseUnmanagedResources();
 		}
+
+		#endregion
 	}
 }

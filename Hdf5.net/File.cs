@@ -14,7 +14,8 @@ namespace Hdf5
 
 	public class File : Group, IDisposable
 	{
-		/// <summary>
+
+	   /// <summary>
 		/// Opens file if exists; Creates otherwise
 		/// </summary>
 		/// <param name="path"></param>
@@ -88,14 +89,15 @@ namespace Hdf5
 		internal void CloseOpenObjects()
 		{
 			// close all open objects 
-			IntPtr countPtr = H5F.get_obj_count(_id, H5F.OBJ_ALL);
+			var allButFile = H5F.OBJ_ATTR | H5F.OBJ_DATASET | H5F.OBJ_DATATYPE | H5F.OBJ_GROUP;
+			IntPtr countPtr = H5F.get_obj_count(_id, allButFile);
 			int objCount = countPtr.ToInt32();
 
 			var objIds = Id.CreateLowLevelArray(objCount);
 
 			using (var gch = new PinnedGCHandle(objIds))
 			{
-				H5F.get_obj_ids(_id,H5F.OBJ_ALL, countPtr, gch.AddressPtr);
+				H5F.get_obj_ids(_id,allButFile, countPtr, gch.AddressPtr);
 
 				// Note, the H5F.get_obj_ids(...) unit test did it like so:
 				// IntPtr buf = H5.allocate_memory(new IntPtr(objCount * _id.H5AllocSize), 0);
@@ -120,6 +122,7 @@ namespace Hdf5
 
 		// fields managed by Dispose
 		private Id _id;
+		internal override Id Id { get => _id; set => _id = value; }
 
 		private bool disposedValue = false; // To detect redundant calls
 

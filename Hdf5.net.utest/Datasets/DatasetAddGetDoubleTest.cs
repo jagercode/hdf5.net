@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Hdf5.utest.Datasets
 {
-	internal class DatasetWriteReadDoubleTest : DatasetWriteReadBackTestBase<double>
+	internal class DatasetAddGetDoubleTest : DatasetAddGetValueTestBase<double>
 	{
 		internal override double[] Get1DArrayValue()
 		{

@@ -17,7 +17,7 @@ namespace Hdf5.utest
 
 		public Group GroupFromDisposedFile { get; set; }
 
-		public DataSetCollection DatasetCollectioniFromDisposedFile { get; set; }
+		public DataSetList DatasetCollectioniFromDisposedFile { get; set; }
 
 		public GroupCollection GroupCollectionFromDisposedFile { get; set; }
 

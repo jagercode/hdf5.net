@@ -50,6 +50,7 @@
     <Compile Include="Attribute.cs" />
     <Compile Include="Cursor.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="DatasetDerivatives.cs" />
     <Compile Include="Easy\DataSetDictionary.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Group.cs" />

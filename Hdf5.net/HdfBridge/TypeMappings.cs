@@ -137,5 +137,37 @@ namespace Hdf5.HdfBridge
 
 		public Hdf5Id StorageType { get; }
 
+
+		/// <summary>
+		/// Gets the type mapping for the element type of value. If value is scalar the type of value is the element type.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		internal static TypeMapping GetFor<T>(T value)
+		{
+			var a = value as Array;
+			Type elementType;
+			if (null == a)
+			{
+				// scalar
+				elementType = typeof(T);
+			}
+			else
+			{ // array
+				elementType = typeof(T).GetElementType();
+			}
+
+			TypeMapping typeMapping;
+			try
+			{
+				typeMapping = TypeMapping.Supported[elementType];
+			}
+			catch (KeyNotFoundException)
+			{
+				throw new NotSupportedException($"array of type {elementType}");
+			}
+			return typeMapping;
+		}
 	}
 }

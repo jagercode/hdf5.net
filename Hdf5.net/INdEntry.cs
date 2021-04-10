@@ -12,8 +12,8 @@ namespace Hdf5
 		ulong[] Shape { get; }
 		Type ElementType { get; }
 		object ValueAsObject { get; set; }
-		T Get<T>();
-		void Set<T>(T value);
+		T GetValue<T>();
+		void SetValue<T>(T value);
 		// todo: TResult GetSlice(params Slice[] slices), get a subset of the data of the entry. Same element type but maybe different shape (dim N-1).
 		// todo: ToEntry<T>(), convert to interface with indexer
 	}

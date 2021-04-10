@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hdf5.HdfBridge
 {
@@ -10,8 +7,13 @@ namespace Hdf5.HdfBridge
 	{
 		public static string ToString(ulong[] shape)
 		{
-			if (null == shape) return string.Empty;
+			if (null == shape)
+			{
+				return string.Empty;
+			}
+
 			return $"[{string.Join(",", shape.Select(ul => ul.ToString()))}]";
 		}
+
 	}
 }

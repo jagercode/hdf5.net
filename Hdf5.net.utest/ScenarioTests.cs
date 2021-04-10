@@ -21,39 +21,40 @@ namespace Hdf5.utest
 		[Test]
 		public void Add_structure_provided_by_factory_method()
 		{
-			Group createGroup()
-			{
-				return new Group
-				{
-					Name = "Factory Group",
-					DataSets =
-					{
-						{ "Data set", 12d },
-						// future work (milestone 3, In Memory)
-						//{ new DataSet<double>("aap", 13d)
-						//{
-						//	Attributes =
-						//	{
-						//		{ "aap double", 2d },
-						//		{"aap string", "aap string" },
-						//	}
+			Assert.Inconclusive("Awaits implementation.");
+			//Group createGroup()
+			//{
+			//	return new Group
+			//	{
+			//		Name = "Factory Group",
+			//		DataSets =
+			//		{
+			//			{ "Data set", 12d },
+			//			// future work (milestone 3, In Memory)
+			//			//{ new DataSet<double>("aap", 13d)
+			//			//{
+			//			//	Attributes =
+			//			//	{
+			//			//		{ "aap double", 2d },
+			//			//		{"aap string", "aap string" },
+			//			//	}
 
-						//}
-						//},
-					},
-					Attributes =
-					{
-						{"double", 1d },
-						{"int64", (long)12 },
-						{"string", "string"},
+			//			//}
+			//			//},
+			//		},
+			//		Attributes =
+			//		{
+			//			{"double", 1d },
+			//			{"int64", (long)12 },
+			//			{"string", "string"},
 
-					},
-				};
-			};
+			//		},
+			//	};
+			//};
 
-			var g = createGroup();
-			var f = new File("testpath");
-			f.Groups.Add(g);
+			//var g = createGroup();
+			//var f = new File("testpath");
+			//f.Groups.Add(g);
 
 		}
 

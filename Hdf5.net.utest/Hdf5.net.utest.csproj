@@ -48,10 +48,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datasets\AccessManagerTests.cs" />
     <Compile Include="Datasets\DatasetAddDouble.cs" />
+    <Compile Include="Datasets\DatasetAddGetDoubleTest.cs" />
+    <Compile Include="Datasets\DataSetAddGetIntTest.cs" />
+    <Compile Include="Datasets\DatasetAddGetStringTest.cs" />
     <Compile Include="Datasets\DatasetCreateDoubles.cs" />
     <Compile Include="Datasets\DatasetWriteReadBackBase.cs" />
-    <Compile Include="Datasets\DatasetWriteReadDoubleTest.cs" />
     <Compile Include="Datasets\IAddDataset.cs" />
     <Compile Include="FileDisposeTests.cs" />
     <Compile Include="FileTests.cs" />

@@ -11,9 +11,9 @@ namespace Hdf5.Easy
 	// needed? syntactic sugar? how to use generic method from object? 
 	public class DataSetDictionary : IDictionary<string, object>
 	{
-		private DataSetCollection _collection;
+		private DataSetList _collection;
 
-		internal DataSetDictionary(DataSetCollection collection)
+		internal DataSetDictionary(DataSetList collection)
 		{
 			_collection = collection;
 		}

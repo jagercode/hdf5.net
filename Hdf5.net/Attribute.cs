@@ -14,12 +14,12 @@ namespace Hdf5
 
 		public Type ElementType { get; }
 
-		public T Get<T>()
+		public T GetValue<T>()
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Set<T>(T value)
+		public void SetValue<T>(T value)
 		{
 			throw new NotImplementedException();
 		}
