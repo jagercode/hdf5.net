@@ -25,7 +25,11 @@ namespace Hdf5
 		internal DataSet(Group location, string name)
 		{
 			Group = location ?? throw new ArgumentNullException(nameof(location));
-			if (!Path.IsValidName(Name = name)) throw new ArgumentException($"Invalid name: '{name}'", nameof(name));
+			if (!Path.IsValidName(Name = name))
+			{
+				throw new ArgumentException($"Invalid name: '{name}'", nameof(name));
+			}
+
 			Id = Id.Invalid;
 
 			// todo: this approach delegates the responsibility to create / add a dataset to a group to the DataSetList.
@@ -51,16 +55,16 @@ namespace Hdf5
 		#region INdEntry implementation
 
 		// approach 1: DataSet IS an INdArray with attributes and a name
-		public ulong[] Shape { get => throw new NotImplementedException(); }
+		public ulong[] Shape => throw new NotImplementedException();
 		public bool IsScalar => Shape.Length == 0;
-		public Type ElementType { get => throw new NotImplementedException(); }
+		public Type ElementType => throw new NotImplementedException();
 
 		public T GetValue<T>()
 		{
 			// Don't want to know here if I can open the group or not. 
 
 			// using (SafeIdHandle openGroupHandle = Group.UseOpen())
-			using (var openDatasetHnd = this.UseOpen())
+			using (OpenStateHandle openDatasetHnd = UseOpen())
 			{
 				ReadValue(Id, out T values);
 				return values;
@@ -119,11 +123,19 @@ namespace Hdf5
 					throw new InvalidOperationException($"Failed to open data space");
 				}
 
+				// TODO
+				//var bufferHandle = DataSpace.CreateBuffer();
+				//using (bufferHandle)
+				//{
+				//	H5D.read(,,,,, bufferHandle.BufferPtf);
+				//	value = (T)bufferHandle.Value;
+				//}
+
 				// verify data types and size. 
 				Id storageTypeId = H5D.get_type(datasetId);
 				TypeMapping.GetMemTypesFromStorageType(storageTypeId, out Type elementType, out Id memTypeId);
 
-				var requesstedType = typeof(T);
+				Type requesstedType = typeof(T);
 				Type requestedElementType;
 				int requestedRank;
 				if (requesstedType.IsArray)
@@ -136,7 +148,10 @@ namespace Hdf5
 					requestedElementType = requesstedType;
 					requestedRank = 0;
 				}
-				if (elementType != requestedElementType) throw new ArgumentException($"Dataset is of type'{elementType}' and not '{requestedElementType}'");
+				if (elementType != requestedElementType)
+				{
+					throw new ArgumentException($"Dataset is of type'{elementType}' and not '{requestedElementType}'");
+				}
 
 				int rank = H5S.get_simple_extent_ndims(spaceHnd.Id);
 
@@ -152,21 +167,23 @@ namespace Hdf5
 				H5S.get_simple_extent_dims(spaceHnd.Id, dims, null);
 
 				// read array (shape may be inferred w/ H5S.get_simple_extent_ndims)
+				object buffer;
 				if (requestedRank == 0)
 				{
 					// scalar
-					value = default(T);
+					buffer = default(T);
 				}
 				else
 				{
-					value = CreateArray<T>(elementType, dims);
+					buffer = CreateArray<T>(elementType, dims);
 				}
 				// Array arr = Array.CreateInstance(typeof(TElem), (int) arrayLength);
-				using (PinnedGCHandle gch = new PinnedGCHandle(value))
+				using (PinnedGCHandle<object> gch = new PinnedGCHandle<object>(buffer))
 				{
 					H5D.read(datasetId, /*storageTypeId*/ memTypeId, H5S.ALL, H5S.ALL, H5P.DEFAULT,
 						gch.AddressPtr);
 				}
+				value = (T)buffer;
 			}
 		}
 
@@ -249,7 +266,7 @@ namespace Hdf5
 
 						// Write the dataset. 
 						Id memType = typeMapping.MemoryType;
-						using (PinnedGCHandle pinnedObj = new PinnedGCHandle(value))
+						using (PinnedGCHandle<T> pinnedObj = new PinnedGCHandle<T>(value))
 						{
 							Result res = H5D.write(datasetId.Id, memType, H5S.ALL, H5S.ALL, H5P.DEFAULT,
 								pinnedObj.AddressPtr);
@@ -267,7 +284,7 @@ namespace Hdf5
 			}
 		}
 
-		
+
 
 		void IMultiAccessable.ClaimAccess(OpenStateHandle handle)
 		{
@@ -280,8 +297,8 @@ namespace Hdf5
 
 			if (AccessorsCount == 0)
 			{
-				var locationId = Group.Id;
-				var name = Name;
+				Id locationId = Group.Id;
+				string name = Name;
 				Id = H5D.open(locationId, name, H5P.DEFAULT);
 				Debug.Assert(Id.IsValid, $"Failed to open Dataset '{Name}'.");
 			}

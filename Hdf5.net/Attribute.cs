@@ -156,7 +156,7 @@ namespace Hdf5
 							: Array.CreateInstance(returnElementType, arrayDims);
 
 						// read scalar or array (shape may be inferred w/ H5S.get_simple_extent_ndims)
-						using (PinnedGCHandle gch = new PinnedGCHandle(toPin))
+						using (var gch = new PinnedGCHandle<object>(toPin))
 						{
 							H5A.read(attrHnd.Id, memType, gch.AddressPtr);
 						}

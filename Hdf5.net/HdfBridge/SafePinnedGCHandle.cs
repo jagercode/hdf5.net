@@ -15,11 +15,11 @@ namespace Hdf5.HdfBridge
 	/// In order to free the object, call Dispose. Inpired by: https://www.codeproject.com/Articles/29534/IDisposable-What-Your-Mother-Never-Told-You-About
 	/// </summary>
 	/// <seealso cref="System.IDisposable" />
-	public class PinnedGCHandle : IDisposable
+	public class PinnedGCHandle<T> : IDisposable
 	{
 		private GCHandle _gcHandle;
 
-		public PinnedGCHandle(object objectToPin)
+		public PinnedGCHandle(T objectToPin)
 		{
 			_gcHandle = GCHandle.Alloc(objectToPin, GCHandleType.Pinned);
 		}

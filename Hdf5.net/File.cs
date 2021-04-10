@@ -95,7 +95,7 @@ namespace Hdf5
 
 			var objIds = Id.CreateLowLevelArray(objCount);
 
-			using (var gch = new PinnedGCHandle(objIds))
+			using (var gch = new PinnedGCHandle<long[]>(objIds))
 			{
 				H5F.get_obj_ids(_id,allButFile, countPtr, gch.AddressPtr);
 
