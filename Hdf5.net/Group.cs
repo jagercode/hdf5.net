@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,11 @@ using Hdf5.HdfBridge;
 
 namespace Hdf5
 {
-	public class Group : INode
+	// File : GroupBase : NodeBase : INode
+	// Group : GroupBase : NodeBase : INode
+	// DataSet : ValueEntryBase : INode // Either re-implement INode logic or re-implement IMultiDimensionalValueEntry (Please allow multiple inheritance!)
+	// Attribute : ValueEntryBase
+	public class Group : INode, IMultiAccessable
 	{
 		internal virtual Id Id { get ; set ; }
 
@@ -20,8 +25,9 @@ namespace Hdf5
 		{
 			Id = Id.Invalid;
 			DataSets = new DataSetList(this);
+			Name = string.Empty;
 		}
-
+		
 		public Group Parent { get; }
 
 		// internal Group(Group parent)
@@ -29,8 +35,8 @@ namespace Hdf5
 		//		Parent = parent;
 		// }
 
-		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public string Location { get; set; }
+		public virtual string Name { get ;  set ; } // todo: implement rename
+		public virtual string Location { get; set; } = Path.Separator; // todo: build using path from parent. Root starts with PathSeparator and a readonly name.
 
 		// Q: add extra sugar by repeating the collection add-methods of groups and datasets and making the interface less clean?
 
@@ -39,6 +45,8 @@ namespace Hdf5
 		public DataSetList DataSets { get; }
 
 		public GroupCollection Groups { get; }
+
+		private ISet<OpenStateHandle> _openStateHandles = new HashSet<OpenStateHandle>();
 
 		/// <summary>
 		/// Returns an Id handle to an open group. Clients can dispose it without knowing if 
@@ -50,35 +58,41 @@ namespace Hdf5
 		/// So this does not work in concurrencyscenario's where you don't know which thread will be finished first.
 		/// </summary>
 		/// <returns></returns>
-		internal SafeIdHandle UseOpen()
+		internal virtual OpenStateHandle UseOpen()
 		{
-			// problem: if this is the file (root) it is already open and must stay so. /!\ No closing allowed. 
-			// Mixing File object and Root group leads to code like this:
-			// If already open, return for use and don't close.
-			// If not open yet, return open object with close on disposal.
-			// Solved by abusing the OpenIdHandle by allowing it to have a dummy Dispose operation.
-			// Maybe this is a good reason for a separate OpenGroupHandle.
-			if (Id.IsValid)
-			{
-				return new SafeIdHandle(Id); // no closing upon dispose. 
-			}
-			
-			// in case this is the root group parent is null but since it is always open until disposed
-			// we should never get here for the root only if it Disposed. 
-			// Is this a good reason to propagate the File to all objects? Requiring the File.Id should throw
-			// ObjectDisposedException. 
-			// ??? public bool IsRoot => Parent != null; => string.IsNullOrWhiteSpace(Name); => Name == "/";
-			System.Diagnostics.Debug.Assert(Parent != null, "Parent != null");
-			
-			// anyway, 
-			var utf8Name = Name.ToUtf8Bytes();
-			Id = H5G.open(Parent.Id, utf8Name);
-			return new SafeIdHandle(Id, H5G.close);
+			return new OpenStateHandle(this);
 		}
 
-		internal static class Hdf
+
+		void IMultiAccessable.ClaimAccess(OpenStateHandle handle)
 		{
-			
+			// root is always open. And if it's not in the file yet there's nothing to open.
+			if (Parent == null) return;
+
+			// if this is the first claim open the object.
+			if (_openStateHandles.Count == 0)
+			{
+				var utf8Name = Name.ToUtf8Bytes();
+				Id = H5G.open(Parent.Id, utf8Name);
+				Debug.Assert(Id.IsValid, $"Failed to open group '{Name}'");
+			}
+			_openStateHandles.Add(handle);
+		}
+
+		void IMultiAccessable.DropAccess(OpenStateHandle hanedle)
+		{
+			// root is always open and if not in file nothing to open.
+			if (Parent == null) return;
+
+
+			_openStateHandles.Remove(hanedle);
+			// last access claim dropped: close the object.
+			if (_openStateHandles.Count == 0)
+			{
+				Result res = H5G.close(Id);
+				Id = Id.Invalid;
+				Debug.Assert(res.IsOk, $"Failed to close group '{Name}'.");
+			}
 		}
 	}
 

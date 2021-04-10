@@ -28,6 +28,21 @@ namespace Hdf5.HdfBridge
 			return CreateSimple(shape);
 		}
 
+		public static void GetShapeAndElementTypeOf<T>(T value, out Type elementType, out ulong[] shape)
+		{
+			shape = GetShapeOf(value);
+
+			Array a = value as Array;
+			if (null == a)
+			{
+				// scalar or compound.
+				elementType = typeof(T); 
+				return;
+			}
+			// array
+			elementType = typeof(T).GetElementType() ?? throw new ArgumentException("Unknown element type", nameof(value));
+		}
+
 		private static ulong[] GetShapeOf<T>(T value)
 		{
 			Array a = value as Array;
@@ -47,5 +62,9 @@ namespace Hdf5.HdfBridge
 			return shape;
 		}
 
+		internal static SafeIdHandle Open(Id datasetId)
+		{
+			return new SafeIdHandle(H5D.get_space(datasetId), H5S.close);
+		}
 	}
 }

@@ -27,15 +27,25 @@ namespace Hdf5.HdfBridge
 			_isDisposed = false;
 		}
 
+		public OpenStateHandle(IMultiAccessable client, OpenStateHandle parentOpenStateHandle) : this(client)
+		{
+			this.parentOpenStateHandle = parentOpenStateHandle;
+		}
+
 		private bool _isDisposed;
+		private OpenStateHandle parentOpenStateHandle;
 
 		public void Dispose()
 		{
 			if (_isDisposed) return;
 
 			_isDisposed = true;
+			// drop child first
 			_client?.DropAccess(this);
 			_client = null;
+			// drop parent next
+			parentOpenStateHandle?.Dispose();
+			parentOpenStateHandle = null;
 		}
 
 		~OpenStateHandle()

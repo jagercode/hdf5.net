@@ -62,7 +62,7 @@ namespace Hdf5
 			// using (SafeIdHandle openGroupHandle = Group.UseOpen())
 			using (var openDatasetHnd = this.UseOpen())
 			{
-				ReadValue(openDatasetHnd.Id, out T values);
+				ReadValue(Id, out T values);
 				return values;
 			}
 
@@ -87,7 +87,7 @@ namespace Hdf5
 
 		internal OpenStateHandle UseOpen()
 		{
-			return new OpenStateHandle(this);
+			return new OpenStateHandle(this, Group.UseOpen());
 		}
 
 		/// <summary>
@@ -112,51 +112,69 @@ namespace Hdf5
 			// can easily be scaled up to N-D and scalar. 
 			// might not work for TElem = string. (strings are awkward in hdf5)
 
-			using (SafeIdHandle dataSetHnd = new SafeIdHandle(id, H5D.close))
-			using (SafeIdHandle spaceHnd = new SafeIdHandle(H5D.get_space(dataSetHnd.Id), H5S.close))
+			using (SafeIdHandle spaceHnd = DataSpace.Open(datasetId))
 			{
-				if (!dataSetHnd.Id.IsValid)
-				{
-					throw new InvalidOperationException($"Failed to open dataset at {path}");
-				}
-
 				if (!spaceHnd.Id.IsValid)
 				{
-					throw new InvalidOperationException($"Failed to open data space of dataset at {path}");
+					throw new InvalidOperationException($"Failed to open data space");
 				}
 
 				// verify data types and size. 
-				Id storageTypeId = H5D.get_type(dataSetHnd.Id);
-				TypeMapping.GetMemTypesFromStorageType(storageTypeId, out Type type, out Id memTypeId);
-				if (typeof(TElem) != type)
+				Id storageTypeId = H5D.get_type(datasetId);
+				TypeMapping.GetMemTypesFromStorageType(storageTypeId, out Type elementType, out Id memTypeId);
+
+				var requesstedType = typeof(T);
+				Type requestedElementType;
+				int requestedRank;
+				if (requesstedType.IsArray)
 				{
-					throw new ArgumentException($"Array Element Type {typeof(TElem)} does not match stored data type {type}", nameof(array));
+					requestedElementType = requesstedType.GetElementType();
+					requestedRank = requesstedType.GetArrayRank();
 				}
+				else
+				{
+					requestedElementType = requesstedType;
+					requestedRank = 0;
+				}
+				if (elementType != requestedElementType) throw new ArgumentException($"Dataset is of type'{elementType}' and not '{requestedElementType}'");
 
 				int rank = H5S.get_simple_extent_ndims(spaceHnd.Id);
-				if (rank != 1)
+
+				if (rank != requestedRank)
 				{
-					throw new ArgumentException($"Dataset is {rank}D. Expected 1D dataset at {path}");
+					throw new ArgumentException($"Dataset has rank {rank} and not {requestedRank}");
 				}
+
+				// rank == 0: scalar, not an array.
 
 				ulong[] dims = new ulong[rank];
 
 				H5S.get_simple_extent_dims(spaceHnd.Id, dims, null);
-				ulong arrayLength = 1;
-				foreach (ulong l in dims)
-				{
-					arrayLength *= l;
-				}
 
 				// read array (shape may be inferred w/ H5S.get_simple_extent_ndims)
-				array = new TElem[arrayLength];
-				// Array arr = Array.CreateInstance(typeof(TElem), (int) arrayLength);
-				using (PinnedGCHandle gch = new PinnedGCHandle(array))
+				if (requestedRank == 0)
 				{
-					H5D.read(dataSetHnd.Id, /*storageTypeId*/ memTypeId, H5S.ALL, H5S.ALL, H5P.DEFAULT,
+					// scalar
+					value = default(T);
+				}
+				else
+				{
+					value = CreateArray<T>(elementType, dims);
+				}
+				// Array arr = Array.CreateInstance(typeof(TElem), (int) arrayLength);
+				using (PinnedGCHandle gch = new PinnedGCHandle(value))
+				{
+					H5D.read(datasetId, /*storageTypeId*/ memTypeId, H5S.ALL, H5S.ALL, H5P.DEFAULT,
 						gch.AddressPtr);
 				}
 			}
+		}
+
+		private static T CreateArray<T>(Type elementType, ulong[] dims)
+		{
+			long[] shape = dims.Select(Convert.ToInt64).ToArray();
+			object array = Array.CreateInstance(elementType, shape);
+			return (T)array;
 		}
 
 		//internal static void GetValueProperties<TValue>(TValue value, out ulong[] shape, out TypeMapping typeMapping)
@@ -259,25 +277,25 @@ namespace Hdf5
 			// this is getting too complex. But maintaining a group open untill the last dataset is disposed or disposing all 
 			// datasets on disposal of the group is also complex. 
 			// Always use abs path and the always open file Id? 
-			var locationId = Group.Id;
-			var name = Name;
-			Id id = H5D.open(locationId, name, H5P.DEFAULT);
-			if (!id.IsValid)
+
+			if (AccessorsCount == 0)
 			{
-				if (Path.Exists(locationId, name))
-				{
-					throw new InvalidOperationException($"Failed to open dataset '{name}'"); // todo: provide location path here or catch and rethrow by client.
-				}
-
-				throw new ArgumentException($"path not found: {name}");
+				var locationId = Group.Id;
+				var name = Name;
+				Id = H5D.open(locationId, name, H5P.DEFAULT);
+				Debug.Assert(Id.IsValid, $"Failed to open Dataset '{Name}'.");
 			}
-
-			throw new NotImplementedException();
+			AccessorsCount++;
 		}
 
 		void IMultiAccessable.DropAccess(OpenStateHandle hanedle)
 		{
-			throw new NotImplementedException();
+			AccessorsCount--;
+			if (AccessorsCount == 0)
+			{
+				H5D.close(Id);
+				Id = Id.Invalid;
+			}
 		}
 
 
@@ -389,10 +407,9 @@ namespace Hdf5
 					throw new ArgumentException($"name '{name}' is a (partial) path. Please provide a name only.", nameof(name));
 				}
 
-				SafeIdHandle idHandle = Owner.UseOpen();
-				using (idHandle)
+				using (Owner.UseOpen())
 				{
-					if (Path.Exists(idHandle.Id, name))
+					if (Path.Exists(Owner.Id, name))
 					{
 						return new DataSet(Owner, name);
 					}
@@ -406,14 +423,13 @@ namespace Hdf5
 		public void Add<T>(string name, T value)
 		{
 			// Don't want to know here if I can open the group or not. 
-			SafeIdHandle ownerId = Owner.UseOpen();
-			using (ownerId)
+			using (Owner.UseOpen())
 			{
 				try
 				{
 					//DataSet.HDF.GetValueProperties(value, out ulong[] shape, out TypeMapping typeMapping);
 					//var dsId = DataSet.HDF.CreateSimple(ownerId, name, shape, typeMapping, value);
-					DataSet.AddSimple(ownerId, name, value);
+					DataSet.AddSimple(Owner.Id, name, value);
 				}
 				catch (Exception ex)
 				{
